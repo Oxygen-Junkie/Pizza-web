@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
+import { ErrorMessage, Field, Form } from 'vee-validate'
+import * as yup from 'yup'
 import type Item from '~/types/Item'
 import type MapPoints from '~/types/MapPoints'
 import purchaseDataService from '~/services/purchaseDataService'
@@ -15,6 +17,8 @@ const text = ref('')
 const phone = ref('')
 let point: MapPoints | undefined
 const message: Ref<string | undefined> = ref()
+
+const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
 
 function retrieveItem() {
   imageURL.value = `${import.meta.env.VITE_base_api.toString()}/${import.meta.env.VITE_url_images.toString()}${item.value.item.fileName}`
@@ -56,14 +60,21 @@ retrieveItem()
         :mode="4"
       />
       <p><strong class="text-warning">ЗАКАЗ НА {{ price }}рублей</strong></p><br>
-      <label for="phone">Укажите номер телефона, <strong v-if="currentUser"> если он различаятся с указанным в профиле</strong></label>
-      <input
-        v-model="phone"
-        name="phone"
-        type="tel"
-        pattern=""
-        placeholder="+79....."
-      ><br>
+      <div class="form-group">
+        <Form>
+          <label for="phone">Укажите номер телефона, <strong v-if="currentUser"> если он различаятся с указанным в профиле</strong></label>
+          <Field
+            v-model="phone"
+            name="phone"
+            type="tel"
+            pattern=""
+            placeholder="+79....."
+            :rules="phoneRules"
+          />
+          <ErrorMessage name="phone" class="text-red error-feedback" />
+        </Form>
+      </div>
+      <br>
       <label>Укажите место доставки</label>
       <MarkMap @marked="getPoint" />
       <input
@@ -71,6 +82,7 @@ retrieveItem()
         name="office"
         type="text"
         placeholder="Введите квартиру/офис/помещение"
+        maxlength="4"
         style="width: 400px;"
       >
       <button class="badge bg-yellow d-inline-flex" @click="confirm">

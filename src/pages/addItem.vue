@@ -87,6 +87,7 @@ retrieveCategories()
           class="form-control"
           required
           name="title"
+          maxlength="30"
         >
       </div>
 
@@ -98,6 +99,7 @@ retrieveCategories()
           class="form-control"
           required
           name="description"
+          maxlength="500"
         />
       </div>
 
@@ -145,6 +147,7 @@ retrieveCategories()
         class="form-control"
         required
         name="title"
+        maxlength="15"
       >
     </div>
     <button class="btn bg-yellow" @click="saveCategory">
