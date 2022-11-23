@@ -27,13 +27,13 @@ function retrieveItem() {
 function confirm() {
   if (point) {
     if (phone.value) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`))
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`), phone.value)
       flags.closePopUps()
     }
     else if (currentUser) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`))
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`), currentUser.getUser().phone)
       flags.closePopUps()
-    }
+    } else { message.value = 'Телефон не известен' }
     else {
       message.value = 'Укажите место доставки'
     }
