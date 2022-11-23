@@ -3,8 +3,6 @@ export default class MapPoints {
   text!: string
 
   constructor(coordinates: [number, number]) {
-    coordinates[0] = this.convertX(coordinates[0])
-    coordinates[1] = this.convertY(coordinates[1])
     this.coordinates = coordinates
   }
 
@@ -23,13 +21,9 @@ export default class MapPoints {
   }
 
   get getCoordinates() {
-    const zerox = 45.85
-    const coefficientx = 0.00262061233
+    
 
-    const zeroy = 51.42
-    const coefficienty = 0.00230178582
-
-    return [(this.coordinates[0] * coefficientx + zerox), (this.coordinates[1] * coefficienty + zeroy)]
+    return coordinates
   }
 
   setPoint(coordinates: [number, number], text: string) {
