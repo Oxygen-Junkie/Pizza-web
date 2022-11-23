@@ -10,6 +10,7 @@ const image = ref()
 const categories: Ref<any> = ref([])
 const category: Ref<Category> = ref(new Category())
 const submittedCat = ref(false)
+const message: Ref<string | undefined> = ref()
 
 function retrieveCategories() {
   ItemDataService.getAllCategories()
@@ -23,20 +24,23 @@ function retrieveCategories() {
 }
 
 function saveItem() {
-  const formData = new FormData()
-  formData.append('f ile', image.value.files[0])
-  Object.entries(item.value).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
-  ItemDataService.create(formData)
-    .then((response) => {
-      item.value.id = response.data.id
-      // console.log(response.data)
-      submitted.value = true
+  if (item.value.categoryId) {
+    const formData = new FormData()
+    formData.append('file', image.value.files[0])
+    Object.entries(item.value).forEach(([key, value]) => {
+      formData.append(key, value)
     })
-    .catch((e) => {
-      // console.log(e)
-    })
+    ItemDataService.create(formData)
+      .then((response) => {
+        item.value.id = response.data.id
+        submitted.value = true
+      })
+      .catch((e) => {
+      })
+  }
+  else {
+    message.value = 'Не указана категория'
+  }
 }
 
 function newItem() {
@@ -128,38 +132,43 @@ retrieveCategories()
       <button class="btn bg-yellow" @click="saveItem">
         Добавить предмет
       </button>
+
+      <div v-if="message" class="alert alert-error">
+        {{ message }}
+        <div />
+      </div>
+      <div v-else>
+        <h4>Предмет успешно добавлен</h4>
+        <button class="btn bg-yellow" @click="newItem">
+          Добавить ещё один предмет
+        </button>
+      </div>
     </div>
-    <div v-else>
-      <h4>Предмет успешно добавлен</h4>
-      <button class="btn bg-yellow" @click="newItem">
-        Добавить ещё один предмет
+    <br>
+    <div v-if="!submittedCat">
+      <div class="form-group">
+        <label for="name">Наименование новой категории</label>
+        <input
+          id="name"
+          v-model="category.name"
+          type="text"
+          class="form-control"
+          required
+          name="title"
+          maxlength="15"
+        >
+      </div>
+      <button class="btn bg-yellow" @click="saveCategory">
+        Добавить категорию
       </button>
     </div>
-  </div>
-  <br>
-  <div v-if="!submittedCat">
-    <div class="form-group">
-      <label for="name">Наименование новой категории</label>
-      <input
-        id="name"
-        v-model="category.name"
-        type="text"
-        class="form-control"
-        required
-        name="title"
-        maxlength="15"
-      >
-    </div>
-    <button class="btn bg-yellow" @click="saveCategory">
-      Добавить категорию
-    </button>
-  </div>
 
-  <div v-else>
-    <h4>Категория успешно создана</h4>
-    <button class="btn bg-yellow" @click="newCategory">
-      Добавить ещё одну категорию
-    </button>
+    <div v-else>
+      <h4>Категория успешно создана</h4>
+      <button class="btn bg-yellow" @click="newCategory">
+        Добавить ещё одну категорию
+      </button>
+    </div>
   </div>
 </template>
 
