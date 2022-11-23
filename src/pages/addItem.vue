@@ -130,7 +130,7 @@ retrieveCategories()
       </div>
 
       <button class="btn bg-yellow" @click="saveItem">
-        Добавить предмет
+        Добавить товар
       </button>
 
       <div v-if="message" class="alert alert-error">
@@ -138,9 +138,9 @@ retrieveCategories()
         <div />
       </div>
       <div v-else>
-        <h4>Предмет успешно добавлен</h4>
+        <h4>Товар успешно добавлен</h4>
         <button class="btn bg-yellow" @click="newItem">
-          Добавить ещё один предмет
+          Добавить ещё один товар
         </button>
       </div>
     </div>
