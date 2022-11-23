@@ -4,15 +4,16 @@ export default class ItemOrder {
   itemId: number
   inbound: boolean
   location!: [number, number]
-  phone!: string
+  phone: string
   text!: string
 
-  constructor(amount: number, itemId: number, location: [number, number], text: string) {
+  constructor(amount: number, itemId: number, location: [number, number], text: string, phone: string) {
     this.amount = amount
     this.itemId = itemId
     this.inbound = true
     this.location = location
     this.text = text
+this.phone = phone
   }
 }
 
