@@ -49,42 +49,22 @@ retrieveItem()
           {{ ` ${currentItem.price}руб` }}
         </span>
       </div>
-      <div>
-        <label>Количество: &nbsp;</label>
-        <input
-          v-model="amount"
-          class="text-warning"
-          type="number"
-          placeholder="Укажите количество"
-        >
-      </div>
+      <Form>
+        <div class="form-group">
+          <label for="amount">Количество</label>
+          <Field
+            v-model="amount" name="amount" class="text-center" value="1" type="number" min="1" max="10"
+          />
+          <ErrorMessage name="email" class="text-red error-feedback" />
+        </div>
+      </Form>
       <br>
       <div>
         <button class="d-inline-flex justify-content-center badge bg-green" @click="buy">
           <p i-carbon-shopping-bag />&nbsp;
           Купить
         </button>
-        <button class="d-inline-flex justify-content-center badge bg-purple">
-          <p i-carbon-operations-record />&nbsp;
-          Изменить
-        </button>
       </div>
-      =======
-      <div>
-        <label>Цена: &nbsp;</label>
-        <span class="text-warning">
-          {{ ` ${currentItem.price}руб` }}
-        </span>
-      </div>
-      <div>
-        <label>Количество</label>
-        <input class="text-center" value="1" type="number" min="1" max="10">
-      </div>
-
-      <button class="badge bg-yellow">
-        <span i-carbon-shopping-cart-plus />
-        Купить
-      </button>
     </div>
   </div>
 </template>
