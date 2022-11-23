@@ -64,7 +64,7 @@ retrieveItem()
         pattern=""
         placeholder="+79....."
       ><br>
-      <label for="">Укажите место доставки</label>
+      <label>Укажите место доставки</label>
       <MarkMap @marked="getPoint" />
       <input
         v-model="text"

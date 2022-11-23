@@ -49,15 +49,13 @@ retrieveItem()
           {{ ` ${currentItem.price}руб` }}
         </span>
       </div>
-      <Form>
-        <div class="form-group">
-          <label for="amount">Количество</label>
-          <Field
-            v-model="amount" name="amount" class="text-center" value="1" type="number" min="1" max="10"
-          />
-          <ErrorMessage name="email" class="text-red error-feedback" />
-        </div>
-      </Form>
+
+      <div class="form-group">
+        <label for="amount">Количество</label>
+        <input
+          v-model="amount" name="amount" class="text-center" type="number" min="1" max="10"
+        >
+      </div>
       <br>
       <div>
         <button class="d-inline-flex justify-content-center badge bg-green" @click="buy">
