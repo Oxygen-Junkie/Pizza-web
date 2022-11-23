@@ -85,12 +85,6 @@ retrieveItem()
         <span i-carbon-shopping-cart-plus />
         Купить
       </button>
-      <button class="badge bg-green">
-        <span i-carbon-shopping-cart-plus />
-        В корзину
-      </button>
-
-      >>>>>>> 33eec4fe984bf9a394d00450a11131b744f451aa
     </div>
   </div>
 </template>

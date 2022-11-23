@@ -24,7 +24,7 @@ function retrieveCategories() {
 
 function saveItem() {
   const formData = new FormData()
-  formData.append('file', image.value.files[0])
+  formData.append('f ile', image.value.files[0])
   Object.entries(item.value).forEach(([key, value]) => {
     formData.append(key, value)
   })
