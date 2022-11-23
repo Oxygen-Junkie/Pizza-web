@@ -98,7 +98,7 @@ retrieveCategories()
           class="form-control"
           required
           name="description"
-        >
+        />
       </div>
 
       <div class="form-group">
@@ -109,7 +109,7 @@ retrieveCategories()
           type="number"
           class="form-control"
           min="200"
-max="5000"
+          max="5000"
           required
           name="price"
         >
@@ -128,7 +128,7 @@ max="5000"
       </button>
     </div>
     <div v-else>
-      Предмет успешно добавлен</h4>
+      <h4>Предмет успешно добавлен</h4>
       <button class="btn bg-yellow" @click="newItem">
         Добавить ещё один предмет
       </button>
@@ -171,4 +171,3 @@ max="5000"
       margin-bottom: 30px;
     }
 </style>
-</template></template></template></template></template></template></template></template></template></template></template>

@@ -31,5 +31,10 @@ export default class MapPoints {
 
     return [(this.coordinates[0] * coefficientx + zerox), (this.coordinates[1] * coefficienty + zeroy)]
   }
+
+  setPoint(coordinates: [number, number], text: string) {
+    this.coordinates = coordinates
+    this.text = text
+  }
 }
 

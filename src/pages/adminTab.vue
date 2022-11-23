@@ -1,58 +1,91 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
+import AuthService from '~/services/authService'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+const currentUser = $ref(auth.getUser())
+
+const phone = ref('')
+const phones = ref([''])
+
+const message: Ref<string | undefined> = ref()
+
+const roles = ref([{
+  id: 2,
+  name: 'Менеджер',
+},
+{
+  id: 3,
+  name: 'Администратор',
+}])
+
+const rolez: Ref<{
+  id: number
+  name: string
+}> = ref({
+  id: 2,
+  name: 'Менеджер',
+})
+
+function getPhones() {
+  if (currentUser.roles.includes('ROLE_ADMIN')) {
+    AuthService.getPhones().then((response) => {
+      phones.value = response.data
+    })
+  }
+
+  else { router.push('/') }
+}
+
+function setRole() {
+  AuthService.setRoles(phone.value, rolez.value.id).then(() => {
+    message.value = 'Роль добавлена'
+  })
+}
+
+function ban() {
+  AuthService.ban(phone.value).then(() => {
+    message.value = 'Пользователь заблокирован'
+  })
+}
+
+getPhones()
 </script>
 
 <template>
-  <div class="c">
-    <div class="form-group">
-      <label for="description">Номер телефона пользователя</label>
-      <input
-        id="title"
-        type="text"
-        class="form-control"
-        placeholder="Укажите номер телефона РФ формата"
-        required
-        name="title"
-      >
-    </div>
-
-    <div class="form-group">
-      <label for="description">Установите роль</label>
-      <selected
-        id="description"
-        class="form-control"
-        name="description"
-      >
-        <option selected>
-          Менеджер
-        </option>
-      </selected>
-    </div>
-
-    <div class="form-group">
-      <button class="btn bg-yellow">
-        Добавить товар
-      </button>
-      <button class="btn bg-red">
-        Заблокировать номер
-      </button>
-    </div>
+  <label>Введите телефон</label>
+  <v-select v-model="phone" class="form-select form-select-sm" style="width: 500px" :options="phones" /><p />
+  <label>Укажите роль</label>
+  <select v-model="rolez" class="form-select">
+    <option default disabled>
+      Менеджер
+    </option>
+    <option v-for="role in roles" :key="role.id" :value="role">
+      {{ role.name }}
+    </option>
+  </select><p />
+  <div class="d-inline">
+    <button class="btn bg-green" @click.prevent="setRole">
+      Назначить роль
+    </button>
+    <button class="btn bg-red" @click.prevent="ban">
+      Запретить совершить покупки
+    </button>
+  </div>
+  <div v-if="message" class="alert alert-success">
+    {{ message }}
+    <div />
   </div>
 </template>
 
-<style scoped>
-.c {
-  position:fixed;
-  top: 30%;
-  left: 50%;
-  margin-left:-100px;
-  margin-top:-130px;
-}
-.btn {
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.form-group {
-    margin-top: 20px;
-}
+  <style scoped>
+  .form-select {
+    width: 500px;
+  }
+  button {
+    margin: 5px;
+  }
 </style>
+

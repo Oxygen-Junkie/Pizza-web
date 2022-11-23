@@ -10,7 +10,7 @@ export const useFlagStore = defineStore('flag', () => {
   const location = ref('')
   const render = ref(-1)
   let item: Item
-  let amount: number
+  let amount = 1
 
   function closePopUps() {
     popUpItem.value = false
@@ -20,7 +20,8 @@ export const useFlagStore = defineStore('flag', () => {
     shade.value = false
   }
 
-  function changePopUpItem() {
+  function changePopUpItem(itemz: Item) {
+    item = itemz
     popUpItem.value = true
     shade.value = true
   }
@@ -44,10 +45,6 @@ export const useFlagStore = defineStore('flag', () => {
 
   function setLocation(loc: string) {
     location.value = loc
-  }
-
-  function setItem(itemz: Item) {
-    item = itemz
   }
 
   function getItem() {
@@ -74,7 +71,6 @@ export const useFlagStore = defineStore('flag', () => {
     popUpSignUp,
     location,
     amount,
-    setItem,
     getItem,
   }
 })

@@ -43,7 +43,6 @@ retrieveItem()
       <span class="text-warning">
         {{ currentItem.description }}
       </span>
-<<<<<<< HEAD
       <div>
         <label>Цена: &nbsp;</label>
         <span class="text-warning">
@@ -70,28 +69,28 @@ retrieveItem()
           Изменить
         </button>
       </div>
-=======
-	    <div>
+      =======
+      <div>
         <label>Цена: &nbsp;</label>
         <span class="text-warning">
-          {{` ${currentItem.price}руб`}}
+          {{ ` ${currentItem.price}руб` }}
         </span>
       </div>
-<div>
-<label>Количество</label>
-        <input class="text-center" value="1" type="number" min="1" max="10" />
-</div>
+      <div>
+        <label>Количество</label>
+        <input class="text-center" value="1" type="number" min="1" max="10">
+      </div>
 
       <button class="badge bg-yellow">
         <span i-carbon-shopping-cart-plus />
         Купить
       </button>
-<button class="badge bg-green">
+      <button class="badge bg-green">
         <span i-carbon-shopping-cart-plus />
         В корзину
       </button>
 
->>>>>>> 33eec4fe984bf9a394d00450a11131b744f451aa
+      >>>>>>> 33eec4fe984bf9a394d00450a11131b744f451aa
     </div>
   </div>
 </template>

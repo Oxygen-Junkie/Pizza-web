@@ -13,18 +13,27 @@ const imageURL = ref('')
 const price: Ref<number> = ref(item.value.item.price * item.value.amount)
 const text = ref('')
 const phone = ref('')
-let point: MapPoints
+let point: MapPoints | undefined
+const message: Ref<string | undefined> = ref()
 
 function retrieveItem() {
   imageURL.value = `${import.meta.env.VITE_base_api.toString()}/${import.meta.env.VITE_url_images.toString()}${item.value.item.fileName}`
 }
 
 function confirm() {
-  if (currentUser)
-    purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.phone}, в помещении${text.value}`))
-  else 
-  purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`))
-  flags.closePopUps()
+  if (point) {
+    if (phone.value) {
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`))
+      flags.closePopUps()
+    }
+    else if (currentUser) {
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`))
+      flags.closePopUps()
+    }
+    else {
+      message.value = 'Укажите место доставки'
+    }
+  }
 }
 
 function getPoint(coordinate: MapPoints) {
@@ -42,22 +51,21 @@ retrieveItem()
       </div>
     </div>
     <div class="card-container text-center">
-      <img
-        :src="imageURL"
-        class="rounded mx-auto product-img"
-      >
+      <item_palette
+        :item="item"
+        :mode="4"
+      />
       <p><strong class="text-warning">ЗАКАЗ НА {{ price }}рублей</strong></p><br>
-      <label for="phone">Укажите номер телефона, <strong> если он различаятся с указанным в профиле</strong></label>
+      <label for="phone">Укажите номер телефона, <strong v-if="currentUser"> если он различаятся с указанным в профиле</strong></label>
       <input
         v-model="phone"
         name="phone"
         type="tel"
         pattern=""
         placeholder="+79....."
-      ><p><small class="text-primary">Неверный формат телефона</small></p><br>
-      <label for="">Укажите место доставки (дважды дотроньтесь до экрана на желаемом месте)</label>
+      ><br>
+      <label for="">Укажите место доставки</label>
       <MarkMap @marked="getPoint" />
-      <div>Координаты метки: 69,540 по горизонтали; 83,978 по вертикали </div>
       <input
         v-model="text"
         name="office"
@@ -69,6 +77,9 @@ retrieveItem()
         <p i-carbon-delivery />
         <div>&nbsp; Доставить</div>
       </button>
+      <div v-if="message" class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>

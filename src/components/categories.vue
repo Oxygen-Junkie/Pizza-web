@@ -33,7 +33,6 @@ retrieveCategories()
   <div>
     <div class="filler bg-yellow" />
     <div class="list bg-yellow">
-      <p>Категории</p>
       <ul class="list-group">
         <li
           v-for="(category, index) in categories"

@@ -73,7 +73,7 @@ onUnmounted(() => {
         </router-link>
       </li>
     </div>
-    
+
     <div v-if="!currentUser" class="navbar-nav mb-3">
       <li class="nav-item">
         <button class="nav-link" :disabled="flags.shade" @click.prevent="flags.changePopUpSignUp">
@@ -81,7 +81,7 @@ onUnmounted(() => {
         </button>
       </li>
     </div>
-   
+
     <div v-if="!currentUser" class="navbar-nav mb-3">
       <li class="nav-item">
         <button class="nav-link" :disabled="flags.shade" @click.prevent="flags.changePopUpSignIn">
@@ -91,12 +91,6 @@ onUnmounted(() => {
     </div>
 
     <div v-if="currentUser" class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <router-link v-if="!flags.shade" to="/profile" class="nav-link">
-          <p i-carbon-user-profile-alt /> Профиль
-          {{ `${currentUser.phone.substring(0, 5)}....` }}
-        </router-link>
-      </li>
       <li class="nav-item">
         <a class="nav-link" style="cursor: pointer" @click.prevent="logOut">
           <p i-carbon-logout /> Выйти

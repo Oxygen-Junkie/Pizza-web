@@ -43,6 +43,7 @@ retrieveItems()
         v-for="item in items"
         :key="item.id"
         :item="item"
+        :mode="1"
       />
     </div>
   </div>
