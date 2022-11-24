@@ -33,7 +33,8 @@ function confirm() {
     else if (currentUser) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`, currentUser.getUser().phone))
       flags.closePopUps()
-    } else { message.value = 'Телефон не известен' }
+    }
+    else { message.value = 'Телефон не известен' }
   }
   else {
     message.value = 'Укажите место доставки'
@@ -51,7 +52,7 @@ retrieveItem()
   <div class="card">
     <div class="bg-yellow">
       <div class="text-right">
-        <button type="button" class="btn-close" @click.prevent="" />
+        <button type="button" class="btn-close" @click.prevent="flags.closePopUps" />
       </div>
     </div>
     <div class="card-container text-center">

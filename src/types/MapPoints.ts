@@ -16,10 +16,8 @@ export default class MapPoints {
 
     return c
   }
-  
-  get getCoordinates() {
-    
 
+  get getCoordinates() {
     return this.coordinates
   }
 

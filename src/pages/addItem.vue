@@ -132,18 +132,17 @@ retrieveCategories()
       <button class="btn bg-yellow" @click="saveItem">
         Добавить товар
       </button>
-
-      <div v-if="message" class="alert alert-error">
-        {{ message }}
-        <div />
-      </div>
-      <div v-else>
-        <h4>Товар успешно добавлен</h4>
-        <button class="btn bg-yellow" @click="newItem">
-          Добавить ещё один товар
-        </button>
-      </div>
     </div>
+    <div v-else>
+      <h4>Товар успешно добавлен</h4>
+      <button class="btn bg-yellow" @click="newItem">
+        Добавить ещё один товар
+      </button>
+    </div>
+    <div v-if="message" class="alert alert-error">
+      {{ message }}
+    </div>
+
     <br>
     <div v-if="!submittedCat">
       <div class="form-group">
