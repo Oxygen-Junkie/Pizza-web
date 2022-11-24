@@ -30,7 +30,7 @@ const rolez: Ref<{
 })
 
 function getPhones() {
-  if (currentUser.roles.includes('ROLE_ADMIN')) {
+  if (currentUser.roles.includes('ADMIN')) {
     AuthService.getPhones().then((response) => {
       phones.value = response.data
     })

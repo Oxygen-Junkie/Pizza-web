@@ -22,7 +22,7 @@ function retrieveItems() {
 
 function filterCat(cid: number) {
   items.value = temp
-  items.value = items.value.filter(value => cid === value.categoryId)
+  items.value = items.value.filter(value => cid + 1 === value.categoryId)
 }
 
 retrieveItems()

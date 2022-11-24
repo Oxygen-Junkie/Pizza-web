@@ -1,5 +1,4 @@
 import axios from 'redaxios'
-import authHeader from './auth-header'
 import http from './http-common'
 
 const API_URL = import.meta.env.VITE_url_item
@@ -12,7 +11,9 @@ class ItemDataService {
   }
 
   create(data: any) {
-    return axios.post(`${BASE_URL}/${API_URL}`, data, { headers: authHeader() })
+    const storedUser = localStorage.getItem('user')
+    const user = JSON.parse(storedUser || '')
+    return axios.post(`${BASE_URL}/${API_URL}?token=${user.accessToken}`, data)
   }
 
   get(id: any) {
@@ -20,7 +21,7 @@ class ItemDataService {
   }
 
   createCategory(data: any) {
-    return http.post(`${CATEG_API_URL}`, data, { headers: authHeader() })
+    return http.post(`${CATEG_API_URL}`, data)
   }
 
   getAllCategories() {

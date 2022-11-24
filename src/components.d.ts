@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Categories: typeof import('./components/categories.vue')['default']
-    copy: typeof import('./components/MarkMap.vue')['default']
     Item_palette: typeof import('./components/item_palette.vue')['default']
     Item_view: typeof import('./components/item_view.vue')['default']
     LocationInput: typeof import('./components/locationInput.vue')['default']

@@ -1,10 +1,10 @@
-import authHeader from './auth-header'
 import http from './http-common'
+
 const LOG_URL = import.meta.env.VITE_url_signin
 const REG_URL = import.meta.env.VITE_url_signup
-const Phones_URL = import.meta.env.VITE_url_ban
-const Roles_URL = import.meta.env.VITE_url_phones
-const Bans_URL = import.meta.env.VITE_url_setRole
+const Phones_URL = import.meta.env.VITE_url_phones
+const Roles_URL = import.meta.env.VITE_url_setRole
+const Bans_URL = import.meta.env.VITE_url_ban
 
 class AuthService {
   login(phone: string, password: string) {
@@ -39,20 +39,20 @@ class AuthService {
   }
 
   getPhones() {
-    return http.get(`${Phones_URL}`, { headers: authHeader() })
+    return http.get(`${Phones_URL}`)
   }
 
   setRoles(phone: string, role: number) {
     return http.post(`${Roles_URL}`, {
       phone,
       role,
-    }, { headers: authHeader() })
+    })
   }
 
   ban(phone: string) {
     return http.post(`${Bans_URL}`, {
       phone,
-    }, { headers: authHeader() })
+    })
   }
 }
 
