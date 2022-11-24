@@ -29,22 +29,32 @@ retrieveItems()
 </script>
 
 <template>
-  <categories @found="filterCat" />
-  <div>
-    <div v-if="loading" class="text-center">
-      <span
-        v-show="loading"
-        class="spinner-grow text-warning m-30"
-        style="width: 9rem; height: 9rem; "
-      />
+  <div
+    style="display:flex;"
+  >
+    <div
+      style="flex: 1;"
+    >
+      <categories @found="filterCat" />
     </div>
-    <div v-else class="photos">
-      <item_palette
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
-        :mode="1"
-      />
+    <div
+      style="flex: 5;"
+    >
+      <div v-if="loading" class="text-center">
+        <span
+          v-show="loading"
+          class="spinner-grow text-warning m-30"
+          style="width: 9rem; height: 9rem; "
+        />
+      </div>
+      <div v-else class="photos">
+        <item_palette
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+          :mode="1"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +62,7 @@ retrieveItems()
 <style scoped>
   .photos {
     column-count: auto;
-    column-width: 14rem;
+    column-width: 18rem;
   }
 </style>
 
