@@ -1,15 +1,15 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import Item from '~/types/Item'
+import type Item from '~/types/Item'
 
 export const useFlagStore = defineStore('flag', () => {
   const popUpItem = ref(false)
-  const popUpPurchase = ref(true)
+  const popUpPurchase = ref(false)
   const popUpSignIn = ref(false)
   const popUpSignUp = ref(false)
   const shade = ref(false)
   const location = ref('')
   const render = ref(-1)
-  let item: Item = new Item()
+  let item: Item
   let amount = 1
 
   function closePopUps() {
