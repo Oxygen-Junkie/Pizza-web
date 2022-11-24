@@ -1,6 +1,6 @@
 export default class Item {
   id!: number
-  fileName: string | undefined
+  fileName!: string | undefined
   title: string | undefined
   description: string | undefined
   price: number | undefined

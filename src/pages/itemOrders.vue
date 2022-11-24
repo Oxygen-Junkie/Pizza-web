@@ -76,7 +76,7 @@ initiate()
           Считать этот товар доставленным
         </button>
       </div>
-      <div v-else color="white">
+      <div v-else style="backgroundColor: white">
         Предмет был удален
       </div>
     </div>
