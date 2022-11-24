@@ -29,7 +29,7 @@ function saveItem() {
     formData.append('file', image.value.files[0])
     Object.entries(item.value).forEach(([key, value]) => {
       if (value === undefined) {
-        message.value = `Не указано значение для ${key}`
+        message.value = `Поле для ${key} не заполнено`
         return 0
       }
       else {
