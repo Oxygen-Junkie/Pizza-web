@@ -17,9 +17,6 @@ const fillColor = ref('red')
 </script>
 
 <template>
-  <div v-for="coordinate in coordinates" :key="coordinate.text">
-    {{ coordinate.text }}
-  </div>
   <ol-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" style="height:500px; width:500px">
     <ol-view
       ref="view"

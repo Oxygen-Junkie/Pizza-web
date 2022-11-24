@@ -72,7 +72,7 @@ initiate()
         <div v-else style="backgroundColor: white">
           Предмет был удален
         </div>
-        <span class="bg-white">{{ ` В количестве: ${order.order.amount} ` }}</span><p />
+        <span class="bg-white">{{ ` Стоимостью: ${order.order.amount * findItem(order.order).price} ` }}</span><p />
         <span class="bg-white">{{ ` Номер телефона заказчика: ${order.order.phone} ` }}</span><p />
         <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
           Считать этот товар доставленным
