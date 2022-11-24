@@ -13,7 +13,7 @@ export default class ItemOrder {
     this.inbound = true
     this.location = location
     this.text = text
-this.phone = phone
+    this.phone = phone
   }
 }
 

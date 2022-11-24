@@ -11,9 +11,7 @@ class ItemDataService {
   }
 
   create(data: any) {
-    const storedUser = localStorage.getItem('user')
-    const user = JSON.parse(storedUser || '')
-    return axios.post(`${BASE_URL}/${API_URL}?token=${user.accessToken}`, data)
+    return axios.post(`${BASE_URL}/${API_URL}?token=0`, data)
   }
 
   get(id: any) {

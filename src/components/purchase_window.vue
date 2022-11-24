@@ -21,9 +21,10 @@ const message: Ref<string | undefined> = ref()
 const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
 
 function confirm() {
+  console.log(item.value)
   if (point) {
     if (phone.value) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`, phone.value))
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
         .then(() => {
           flags.closePopUps()
         })
@@ -32,7 +33,7 @@ function confirm() {
         })
     }
     else if (currentUser.isLoggedIn()) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`, currentUser.getUser().phone))
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${currentUser.getUser().phone}, в помещении ${text.value}`, currentUser.getUser().phone))
         .then(() => {
           flags.closePopUps()
         })
@@ -88,7 +89,8 @@ function getPoint(coordinate: MapPoints) {
         type="text"
         placeholder="Введите квартиру/офис/помещение"
         maxlength="4"
-        style="width: 400px;"
+        style="width: 300px;
+"
       >
       <button class="badge bg-yellow d-inline-flex" @click="confirm">
         <p i-carbon-delivery />

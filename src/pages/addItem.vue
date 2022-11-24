@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
+import type {Ref} from 'vue'
 import ItemDataService from '~/services/itemDataService'
 import Category from '~/types/Category'
 import Item from '~/types/Item'
@@ -30,11 +30,11 @@ function saveItem() {
       formData.append('file', image.value.files[0])
       Object.entries(item.value).forEach(([key, value]) => {
         if (value !== undefined || (key.match('fileName') || key.match('id'))) {
+          formData.append(key, value)
+        } else {
           message.value = `Поле для ${key} не заполнено`
           throw message.value
         }
-
-        else { formData.append(key, value) }
       })
       ItemDataService.create(formData)
         .then((response) => {
@@ -44,12 +44,10 @@ function saveItem() {
         .catch((e) => {
           message.value = e.data.message
         })
-    }
-    else {
+    } else {
       message.value = 'Не указана категория'
     }
-  }
-  catch (e) {
+  } catch (e) {
 
   }
 }
@@ -178,7 +176,7 @@ retrieveCategories()
         Добавить ещё одну категорию
       </button>
     </div>
-    <div v-if="message" class="alert alert-error">
+    <div v-if="message" class="alert alert-danger">
       {{ message }}
     </div>
   </div>
@@ -191,7 +189,7 @@ retrieveCategories()
 }
 
 .btn {
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
 </style>

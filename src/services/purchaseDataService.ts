@@ -7,13 +7,11 @@ const BUY_API_URL = import.meta.env.VITE_url_buy
 
 class PurchaseDataService {
   buy(orders: ItemOrder) {
-    const storedUser = localStorage.getItem('user')
-    const user = JSON.parse(storedUser || '')
-    return http.post(`${BUY_API_URL}?token=${user.accessToken}`, orders)
+    return http.post(`${BUY_API_URL}?token=0`, orders)
   }
 
-  displayOrders(id: any) {
-    return http.get(`${BUY_API_URL}${id}` )
+  displayOrders() {
+    return http.get(`${BUY_API_URL}`)
   }
 
   updateOrder(id: any, order: ItemOrder) {

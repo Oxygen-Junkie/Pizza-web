@@ -63,7 +63,7 @@ onUnmounted(() => {
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link v-if="showManagerBoard()" v-show="!flags.shade" to="/orders" class="nav-link">
+        <router-link v-if="showManagerBoard()" v-show="!flags.shade" to="/itemOrders" class="nav-link">
           <p i-carbon-currency-ruble /> Заказы
         </router-link>
       </li>

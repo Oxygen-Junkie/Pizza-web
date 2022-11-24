@@ -12,20 +12,19 @@ const router = useRouter()
 const currentUser = $ref(auth.getUser())
 const mode: Ref<number> = ref(4)
 
-const orders: Ref<[{ order: ItemOrder; color: string }] | undefined> = ref()
+const orders: Ref<[{ order: ItemOrder; color: string } | undefined]> = ref([])
 const items: Ref<Item[]> = ref([])
-const points: Ref<MapPoints[] | undefined> = ref()
+const points: Ref<MapPoints[]> = ref([])
 
 function initiate() {
-  if (currentUser.roles.includes('ROLE_MANAGER')) {
-    PurchaseDataService.displayOrders(currentUser.id)
+  if (currentUser.roles.includes('MANAGER')) {
+    PurchaseDataService.displayOrders()
       .then((response) => {
         const temp: ItemOrder[] = response.data
-        orders.value?.forEach((order, index) => {
-          order.order = temp[index]
-          order.color = `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
+        temp.forEach((value, index) => {
+          orders.value?.push({ order: value, color: `#${(Math.random() * 0xFFFFFF << 0).toString(16)}` })
           const temb = new MapPoints([1, 1])
-          temb.setPoint(order.order.location, order.order.text)
+          temb.setPoint(value.location, value.text)
           points.value?.push(temb)
         })
       })
@@ -58,6 +57,7 @@ function findItem(value: ItemOrder) {
 }
 
 initiate()
+console.log(points.value)
 </script>
 
 <template>

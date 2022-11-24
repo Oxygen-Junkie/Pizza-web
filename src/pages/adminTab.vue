@@ -81,7 +81,7 @@ getPhones()
       Запретить совершить покупки
     </button>
   </div>
-  <div v-if="message" class="alert">
+  <div v-if="message" class="alert alert-success">
     {{ message }}
     <div />
   </div>
