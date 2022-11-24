@@ -59,7 +59,6 @@ function saveCategory() {
   ItemDataService.createCategory(category.value)
     .then((response) => {
       category.value.id = response.data.id
-      // console.log(response.data)
       submittedCat.value = true
     })
     .catch((e) => {
@@ -69,7 +68,7 @@ function saveCategory() {
 
 function newCategory() {
   submittedCat.value = false
-  category.value = ref().value
+  category.value = new Category()
 }
 
 retrieveCategories()

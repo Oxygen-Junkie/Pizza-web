@@ -1,9 +1,9 @@
 export default class Category {
   id!: number
-  name: string
+  name: string | undefined
 
   constructor() {
-    this.name = ''
+    this.name = undefined
   }
 }
 
