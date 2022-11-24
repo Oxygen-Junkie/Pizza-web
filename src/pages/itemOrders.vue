@@ -63,10 +63,10 @@ initiate()
         :mode="mode"
         class="plate"
       />
-      <span class="bg-white">{{ ` В колличестве: ${order.order.amount} ` }}</span><p />
+      <span class="bg-white">{{ ` В количестве: ${order.order.amount} ` }}</span><p />
       <span class="bg-white">{{ ` Номер телефона заказчика: ${order.order.phone} ` }}</span><p />
       <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
-        Считать этот предмет доставленным
+        Считать этот товар доставленным
       </button>
     </div>
   </div>
@@ -77,10 +77,5 @@ initiate()
   .plate {
     height: 200px;
     width: 200px;
-  }
-
-  .line-l {
-    height: 5px;
-  background: black;
   }
 </style>
