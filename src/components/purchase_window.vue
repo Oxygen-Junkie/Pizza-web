@@ -26,7 +26,7 @@ function confirm() {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`, phone.value))
       flags.closePopUps()
     }
-    else if (currentUser) {
+    else if (currentUser.isLoggedIn()) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`, currentUser.getUser().phone))
       flags.closePopUps()
     }
@@ -57,7 +57,7 @@ function getPoint(coordinate: MapPoints) {
       <p><strong class="text-warning">ЗАКАЗ НА {{ price }}рублей</strong></p><br>
       <div class="form-group">
         <Form>
-          <label for="phone">Укажите номер телефона, <strong v-if="currentUser"> если он различаятся с указанным в профиле</strong></label>
+          <label for="phone">Укажите номер телефона, <strong v-if="currentUser.isLoggedIn()"> если он различаятся с указанным в профиле</strong></label>
           <Field
             v-model="phone"
             name="phone"
