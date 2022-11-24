@@ -57,27 +57,26 @@ function findItem(value: ItemOrder) {
 }
 
 initiate()
-console.log(points.value)
 </script>
 
 <template>
   <div v-if="orders">
     <div v-for="order in orders" :key="order.order.id" :style="{ backgroundColor: order.color }">
-      <div v-if="findItem(order.order)">
+      <div v-if="order && order.order.inbound">
         <item_palette
           v-if="order.order.inbound"
           :item="findItem(order.order)"
           :mode="mode"
           class="plate"
         />
+        <div v-else style="backgroundColor: white">
+          Предмет был удален
+        </div>
         <span class="bg-white">{{ ` В количестве: ${order.order.amount} ` }}</span><p />
         <span class="bg-white">{{ ` Номер телефона заказчика: ${order.order.phone} ` }}</span><p />
         <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
           Считать этот товар доставленным
         </button>
-      </div>
-      <div v-else style="backgroundColor: white">
-        Предмет был удален
       </div>
     </div>
   </div>

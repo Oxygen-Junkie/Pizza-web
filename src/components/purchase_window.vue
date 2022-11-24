@@ -21,7 +21,6 @@ const message: Ref<string | undefined> = ref()
 const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
 
 function confirm() {
-  console.log(item.value)
   if (point) {
     if (phone.value) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
