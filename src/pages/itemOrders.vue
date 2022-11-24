@@ -2,7 +2,7 @@
 import type { Ref } from 'vue'
 import ItemDataService from '~/services/itemDataService'
 import PurchaseDataService from '~/services/purchaseDataService'
-import Item from '~/types/Item'
+import type Item from '~/types/Item'
 import type ItemOrder from '~/types/ItemOrder'
 import MapPoints from '~/types/MapPoints'
 
@@ -46,9 +46,15 @@ function stopTracking(order: ItemOrder) {
 }
 
 function findItem(value: ItemOrder) {
-  const q: any = items.value.find(item => item.id === value.itemId) || new Item()
-  q.amount = value.amount
-  return q
+  const q = items.value.find(item => item.id === value.itemId)
+  if (q) {
+    const q: any = items.value.find(item => item.id === value.itemId)
+    q.amount = value.amount
+    return q
+  }
+  else {
+    return q
+  }
 }
 
 initiate()
@@ -57,17 +63,22 @@ initiate()
 <template>
   <div v-if="orders">
     <div v-for="order in orders" :key="order.order.id" :style="{ backgroundColor: order.color }">
-      <item_palette
-        v-if="order.order.inbound"
-        :item="findItem(order.order)"
-        :mode="mode"
-        class="plate"
-      />
-      <span class="bg-white">{{ ` В количестве: ${order.order.amount} ` }}</span><p />
-      <span class="bg-white">{{ ` Номер телефона заказчика: ${order.order.phone} ` }}</span><p />
-      <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
-        Считать этот товар доставленным
-      </button>
+      <div v-if="findItem(order.order)">
+        <item_palette
+          v-if="order.order.inbound"
+          :item="findItem(order.order)"
+          :mode="mode"
+          class="plate"
+        />
+        <span class="bg-white">{{ ` В количестве: ${order.order.amount} ` }}</span><p />
+        <span class="bg-white">{{ ` Номер телефона заказчика: ${order.order.phone} ` }}</span><p />
+        <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
+          Считать этот товар доставленным
+        </button>
+      </div>
+      <div v-else color="white">
+        Предмет был удален
+      </div>
     </div>
   </div>
   <MapContainer v-if="points" :coordinates="points" />

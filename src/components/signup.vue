@@ -40,21 +40,12 @@ function handleRegister(user: any) {
         loading.value = false
         successful.value = true
       },
-      (error: { response: { data: { message: any } }; message: any; toString: () => any }) => {
+      (error) => {
         loading.value = false
-        message.value
-                = (error.response
-                  && error.response.data
-                  && error.response.data.message)
-                || error.message || error.toString()
+        message.value = error.data.message
         successful.value = false
       },
     )
-  }
-  else if (location === '') {
-    message.value = 'Укажите адрес'
-    loading.value = false
-    successful.value = false
   }
 }
 </script>

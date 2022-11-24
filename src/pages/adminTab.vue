@@ -40,15 +40,22 @@ function getPhones() {
 }
 
 function setRole() {
-  AuthService.setRoles(phone.value, rolez.value.id).then(() => {
-    message.value = 'Роль добавлена'
-  })
+  AuthService.setRoles(phone.value, rolez.value.id)
+    .then(() => {
+      message.value = 'Роль добавлена'
+    })
+    .catch((e) => {
+      message.value = e.data.message
+    })
 }
 
 function ban() {
   AuthService.ban(phone.value).then(() => {
     message.value = 'Пользователь заблокирован'
   })
+    .catch((e) => {
+      message.value = e.data.message
+    })
 }
 
 getPhones()
@@ -74,7 +81,7 @@ getPhones()
       Запретить совершить покупки
     </button>
   </div>
-  <div v-if="message" class="alert alert-success">
+  <div v-if="message" class="alert">
     {{ message }}
     <div />
   </div>

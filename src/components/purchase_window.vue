@@ -24,11 +24,21 @@ function confirm() {
   if (point) {
     if (phone.value) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${phone.value}, в помещении${text.value}`, phone.value))
-      flags.closePopUps()
+        .then(() => {
+          flags.closePopUps()
+        })
+        .catch((e) => {
+          message.value = e.data.message
+        })
     }
     else if (currentUser.isLoggedIn()) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.item.id, point.coordinates, `${currentUser.getUser().phone}, в помещении${text.value}`, currentUser.getUser().phone))
-      flags.closePopUps()
+        .then(() => {
+          flags.closePopUps()
+        })
+        .catch((e) => {
+          message.value = e.data.message
+        })
     }
     else { message.value = 'Телефон не известен' }
   }

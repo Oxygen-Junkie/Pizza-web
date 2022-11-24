@@ -28,7 +28,13 @@ function saveItem() {
     const formData = new FormData()
     formData.append('file', image.value.files[0])
     Object.entries(item.value).forEach(([key, value]) => {
-      formData.append(key, value)
+      if (value === undefined) {
+        message.value = `Не указано значение для ${key}`
+        return 0
+      }
+      else {
+        formData.append(key, value)
+      }
     })
     ItemDataService.create(formData)
       .then((response) => {
@@ -36,6 +42,7 @@ function saveItem() {
         submitted.value = true
       })
       .catch((e) => {
+        message.value = e.data.message
       })
   }
   else {
@@ -56,7 +63,7 @@ function saveCategory() {
       submittedCat.value = true
     })
     .catch((e) => {
-      // console.log(e)
+      message.value = e.data.message
     })
 }
 
@@ -92,6 +99,7 @@ retrieveCategories()
           required
           name="title"
           maxlength="30"
+          placeholder="Укажите название"
         >
       </div>
 
@@ -99,11 +107,12 @@ retrieveCategories()
         <label for="description">Описание</label>
         <textarea
           id="description"
-          v-model="item.description"
+          v-model.trim="item.description"
           class="form-control"
           required
           name="description"
           maxlength="500"
+          placeholder="Введите описание"
         />
       </div>
 
@@ -118,6 +127,7 @@ retrieveCategories()
           max="5000"
           required
           name="price"
+          placeholder="Укажите цену"
         >
       </div>
       <div class="form-group">
@@ -139,22 +149,19 @@ retrieveCategories()
         Добавить ещё один товар
       </button>
     </div>
-    <div v-if="message" class="alert alert-error">
-      {{ message }}
-    </div>
-
     <br>
     <div v-if="!submittedCat">
       <div class="form-group">
         <label for="name">Наименование новой категории</label>
         <input
           id="name"
-          v-model="category.name"
+          v-model.trim="category.name"
           type="text"
           class="form-control"
           required
           name="title"
           maxlength="15"
+          placeholder="Введите название категории"
         >
       </div>
       <button class="btn bg-yellow" @click="saveCategory">
@@ -167,6 +174,9 @@ retrieveCategories()
       <button class="btn bg-yellow" @click="newCategory">
         Добавить ещё одну категорию
       </button>
+    </div>
+    <div v-if="message" class="alert alert-error">
+      {{ message }}
     </div>
   </div>
 </template>

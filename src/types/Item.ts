@@ -1,15 +1,16 @@
 export default class Item {
   id!: number
-  fileName: string
-  title: string
-  description: string
-  price: number
-  categoryId!: number
+  fileName: string | undefined
+  title: string | undefined
+  description: string | undefined
+  price: number | undefined
+  categoryId: number | undefined
 
   constructor() {
-    this.fileName = ''
-    this.title = ''
-    this.description = ''
-    this.price = 1
+    this.fileName = undefined
+    this.title = undefined
+    this.description = undefined
+    this.price = undefined
+    this.categoryId = undefined
   }
 }

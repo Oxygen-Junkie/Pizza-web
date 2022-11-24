@@ -36,13 +36,9 @@ function handleLogin(user: any) {
         flags.closePopUps()
         flags.rerender()
       },
-      (error: { response: { data: { message: any } }; message: any; toString: () => any }) => {
+      (error) => {
         loading.value = false
-        message.value
-                = (error.response
-                  && error.response.data
-                  && error.response.data.message)
-                || error.message || error.toString()
+        message.value = error.data.message
       },
     )
   }
