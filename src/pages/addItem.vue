@@ -24,29 +24,33 @@ function retrieveCategories() {
 }
 
 function saveItem() {
-  if (item.value.categoryId) {
-    const formData = new FormData()
-    formData.append('file', image.value.files[0])
-    Object.entries(item.value).forEach(([key, value]) => {
-      if (value === undefined) {
-        message.value = `Поле для ${key} не заполнено`
-        return 0
-      }
-      else {
-        formData.append(key, value)
-      }
-    })
-    ItemDataService.create(formData)
-      .then((response) => {
-        item.value.id = response.data.id
-        submitted.value = true
+  try {
+    if (item.value.categoryId) {
+      const formData = new FormData()
+      formData.append('file', image.value.files[0])
+      Object.entries(item.value).forEach(([key, value]) => {
+        if (value !== undefined || (key.match('fileName') || key.match('id'))) {
+          message.value = `Поле для ${key} не заполнено`
+          throw message.value
+        }
+
+        else { formData.append(key, value) }
       })
-      .catch((e) => {
-        message.value = e.data.message
-      })
+      ItemDataService.create(formData)
+        .then((response) => {
+          item.value.id = response.data.id
+          submitted.value = true
+        })
+        .catch((e) => {
+          message.value = e.data.message
+        })
+    }
+    else {
+      message.value = 'Не указана категория'
+    }
   }
-  else {
-    message.value = 'Не указана категория'
+  catch (e) {
+
   }
 }
 
