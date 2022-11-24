@@ -67,7 +67,7 @@ function getPoint(coordinate: MapPoints) {
       <p><strong class="text-warning">ЗАКАЗ НА {{ price }}рублей</strong></p><br>
       <div class="form-group">
         <Form>
-          <label for="phone">Укажите номер телефона, <strong v-if="currentUser.isLoggedIn()"> если он различаятся с указанным в профиле</strong></label>
+          <label for="phone">Укажите номер телефона, <strong v-if="currentUser.isLoggedIn()"> если он различается с указанным в профиле</strong></label>
           <Field
             v-model="phone"
             name="phone"
