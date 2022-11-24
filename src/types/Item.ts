@@ -10,6 +10,6 @@ export default class Item {
     this.fileName = ''
     this.title = ''
     this.description = ''
-    this.price = 0
+    this.price = 1
   }
 }

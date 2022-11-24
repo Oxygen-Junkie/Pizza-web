@@ -2,7 +2,6 @@
 import type { Ref } from 'vue'
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as yup from 'yup'
-import type Item from '~/types/Item'
 import type MapPoints from '~/types/MapPoints'
 import purchaseDataService from '~/services/purchaseDataService'
 import ItemOrder from '~/types/ItemOrder'
@@ -10,19 +9,16 @@ import ItemOrder from '~/types/ItemOrder'
 const flags = useFlagStore()
 const currentUser = useAuthStore()
 
-const item: Ref<{ item: Item; amount: number }> = ref({ item: flags.getItem(), amount: flags.amount })
-const imageURL = ref('')
-const price: Ref<number> = ref(item.value.item.price * item.value.amount)
+const temp: any = flags.getItem()
+temp.amount = flags.amount
+const item = ref(temp)
+const price: Ref<number> = ref(temp.price * temp.amount)
 const text = ref('')
 const phone = ref('')
 let point: MapPoints | undefined
 const message: Ref<string | undefined> = ref()
 
 const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
-
-function retrieveItem() {
-  imageURL.value = `${import.meta.env.VITE_base_api.toString()}/${import.meta.env.VITE_url_images.toString()}${item.value.item.fileName}`
-}
 
 function confirm() {
   if (point) {
@@ -44,8 +40,6 @@ function confirm() {
 function getPoint(coordinate: MapPoints) {
   point = coordinate
 }
-
-retrieveItem()
 </script>
 
 <template>
@@ -76,7 +70,7 @@ retrieveItem()
         </Form>
       </div>
       <br>
-      <label>Укажите место доставки</label>
+      <label style="width: 300px">Укажите место доставки</label>
       <MarkMap @marked="getPoint" />
       <input
         v-model="text"
