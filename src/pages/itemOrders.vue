@@ -8,6 +8,7 @@ import MapPoints from '~/types/MapPoints'
 
 const auth = useAuthStore()
 const router = useRouter()
+const manager = import.meta.env.VITE_manager
 
 const currentUser = $ref(auth.getUser())
 const mode: Ref<number> = ref(4)
@@ -16,15 +17,24 @@ const orders: Ref<[{ order: ItemOrder; color: string } | undefined]> = ref([])
 const items: Ref<Item[]> = ref([])
 const points: Ref<MapPoints[]> = ref([])
 
+const showManagerBoard = () => {
+  if (currentUser && currentUser.roles)
+    return currentUser.roles.includes(manager)
+
+  return false
+}
+
 function initiate() {
-  if (currentUser.roles.includes('MANAGER')) {
+  if (showManagerBoard()) {
     PurchaseDataService.displayOrders()
       .then((response) => {
         const temp: ItemOrder[] = response.data
         temp.forEach((value, index) => {
-          orders.value?.push({ order: value, color: `#${(Math.random() * 0xFFFFFF << 0).toString(16)}` })
-          const temb = new MapPoints([1, 1])
-          temb.setPoint(value.location, value.text)
+          const color = `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
+          orders.value?.push({ order: value, color })
+          const temb = new MapPoints(value.location)
+          temb.text = value.text
+          temb.color = color
           points.value?.push(temb)
         })
       })
@@ -35,6 +45,10 @@ function initiate() {
       })
   }
   else {
+    alert('5 баллов, умник')
+    const mp3_url = 'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3';
+
+    (new Audio(mp3_url)).play()
     router.push('/')
   }
 }
@@ -61,7 +75,7 @@ initiate()
 
 <template>
   <div v-if="orders">
-    <div v-for="order in orders" :key="order.order.id" :style="{ backgroundColor: order.color }">
+    <div v-for="order in orders" :key="order?.order.id" :style="{ backgroundColor: order.color }">
       <div v-if="order && order.order.inbound">
         <item_palette
           v-if="order.order.inbound"

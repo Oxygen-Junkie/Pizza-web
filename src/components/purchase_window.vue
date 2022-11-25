@@ -22,6 +22,7 @@ const phoneRules = ref(yup.string().required('Требуется номер те
 
 function confirm() {
   if (point) {
+    text.value = text.value === '' ? 'не указано' : text.value 
     if (phone.value) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
         .then(() => {

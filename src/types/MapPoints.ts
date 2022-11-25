@@ -1,6 +1,7 @@
 export default class MapPoints {
   coordinates!: [number, number]
   text!: string
+  color!: string
 
   constructor(coordinates: [number, number]) {
     this.coordinates = coordinates
@@ -15,15 +16,6 @@ export default class MapPoints {
     c[1] = (c[1] - zeroy) / coefficienty
 
     return c
-  }
-
-  get getCoordinates() {
-    return this.coordinates
-  }
-
-  setPoint(coordinates: [number, number], text: string) {
-    this.coordinates = coordinates
-    this.text = text
   }
 }
 

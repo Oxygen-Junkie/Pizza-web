@@ -15,6 +15,15 @@ const phones = ref([''])
 
 const message: Ref<string | undefined> = ref()
 
+const admin = import.meta.env.VITE_administrator
+
+const showAdminBoard = () => {
+  if (currentUser && currentUser.roles)
+    return currentUser.roles.includes(admin)
+
+  return false
+}
+
 const roles = ref([{
   id: 2,
   name: 'Менеджер',
@@ -33,13 +42,19 @@ const rolez: Ref<{
 })
 
 function getPhones() {
-  if (currentUser.roles.includes('ADMIN')) {
+  if (showAdminBoard()) {
     AuthService.getPhones().then((response) => {
       phones.value = response.data
     })
   }
 
-  else { router.push('/') }
+  else {
+    alert('5 баллов, умник')
+    const mp3_url = 'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3';
+
+    (new Audio(mp3_url)).play()
+    router.push('/')
+  }
 }
 
 function setRole() {

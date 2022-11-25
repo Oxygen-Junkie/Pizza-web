@@ -1,8 +1,21 @@
 <script setup lang="ts">
-import type {Ref} from 'vue'
+import type { Ref } from 'vue'
 import ItemDataService from '~/services/itemDataService'
 import Category from '~/types/Category'
 import Item from '~/types/Item'
+
+const auth = useAuthStore()
+const router = useRouter()
+const manager = import.meta.env.VITE_manager
+
+const currentUser = $ref(auth.getUser())
+
+const showManagerBoard = () => {
+  if (currentUser && currentUser.roles)
+    return currentUser.roles.includes(manager)
+
+  return false
+}
 
 const submitted = ref(false)
 const item: Ref<Item> = ref(new Item())
@@ -25,29 +38,41 @@ function retrieveCategories() {
 
 function saveItem() {
   try {
-    if (item.value.categoryId) {
-      const formData = new FormData()
-      formData.append('file', image.value.files[0])
-      Object.entries(item.value).forEach(([key, value]) => {
-        if (value !== undefined || (key.match('fileName') || key.match('id'))) {
-          formData.append(key, value)
-        } else {
-          message.value = `Поле для ${key} не заполнено`
-          throw message.value
-        }
-      })
-      ItemDataService.create(formData)
-        .then((response) => {
-          item.value.id = response.data.id
-          submitted.value = true
+    if (showManagerBoard()) {
+      if (item.value.categoryId) {
+        const formData = new FormData()
+        formData.append('file', image.value.files[0])
+        Object.entries(item.value).forEach(([key, value]) => {
+          if (value !== undefined || (key.match('fileName') || key.match('id'))) {
+            formData.append(key, value)
+          }
+          else {
+            message.value = `Поле для ${key} не заполнено`
+            throw message.value
+          }
         })
-        .catch((e) => {
-          message.value = e.data.message
-        })
-    } else {
-      message.value = 'Не указана категория'
+        ItemDataService.create(formData)
+          .then((response) => {
+            item.value.id = response.data.id
+            submitted.value = true
+          })
+          .catch((e) => {
+            message.value = e.data.message
+          })
+      }
+      else {
+        message.value = 'Не указана категория'
+      }
     }
-  } catch (e) {
+    else {
+      alert('5 баллов, умник')
+      const mp3_url = 'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3';
+
+      (new Audio(mp3_url)).play()
+      router.push('/')
+    }
+  }
+  catch (e) {
 
   }
 }

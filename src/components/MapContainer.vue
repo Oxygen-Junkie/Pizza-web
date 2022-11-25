@@ -12,7 +12,6 @@ const rotation = ref(0)
 
 const radius = ref(2)
 const strokeWidth = ref(10)
-const strokeColor = ref('yellow')
 const fillColor = ref('red')
 </script>
 
@@ -34,11 +33,11 @@ const fillColor = ref('red')
     <ol-vector-layer v-for="coordinate in koordinates" :key="coordinate.text">
       <ol-source-vector>
         <ol-feature>
-          <ol-geom-point :coordinates="coordinate.getCoordinates" />
+          <ol-geom-point :coordinates="coordinate.coordinates" />
           <ol-style>
             <ol-style-circle :radius="radius">
               <ol-style-fill :color="fillColor" />
-              <ol-style-stroke :color="strokeColor" :width="strokeWidth" />
+              <ol-style-stroke :color="coordinate.color" :width="strokeWidth" />
               <ol-style-text :text="coordinate.text" />
             </ol-style-circle>
           </ol-style>
