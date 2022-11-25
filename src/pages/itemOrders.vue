@@ -74,6 +74,7 @@ initiate()
 </script>
 
 <template>
+  <MapContainer v-if="points" :coordinates="points" />
   <div v-if="orders">
     <div v-for="order in orders" :key="order?.order.id" :style="{ backgroundColor: order?.color }">
       <div v-if="order && order.order.inbound">
@@ -94,7 +95,6 @@ initiate()
       </div>
     </div>
   </div>
-  <MapContainer v-if="points" :coordinates="points" />
 </template>
 
 <style scoped>
