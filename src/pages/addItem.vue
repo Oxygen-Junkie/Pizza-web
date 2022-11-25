@@ -23,16 +23,17 @@ const image = ref()
 const categories: Ref<any> = ref([])
 const category: Ref<Category> = ref(new Category())
 const submittedCat = ref(false)
+const successful = ref(false)
 const message: Ref<string | undefined> = ref()
 
 function retrieveCategories() {
   ItemDataService.getAllCategories()
     .then((response) => {
       categories.value = response.data
-      // console.log(items.value)
-    })
-    .catch((e) => {
-      // console.log(e)
+    },
+    (error) => {
+      successful.value = false
+      message.value = error.data.message
     })
 }
 
@@ -47,6 +48,7 @@ function saveItem() {
             formData.append(key, value)
           }
           else {
+            successful.value = false
             message.value = `Поле для ${key} не заполнено`
             throw message.value
           }
@@ -55,12 +57,15 @@ function saveItem() {
           .then((response) => {
             item.value.id = response.data.id
             submitted.value = true
-          })
-          .catch((e) => {
-            message.value = e.data.message
+            successful.value = true
+          },
+          (error) => {
+            successful.value = false
+            message.value = error.data.message
           })
       }
       else {
+        successful.value = false
         message.value = 'Не указана категория'
       }
     }
@@ -87,9 +92,11 @@ function saveCategory() {
     .then((response) => {
       category.value.id = response.data.id
       submittedCat.value = true
-    })
-    .catch((e) => {
-      message.value = e.data.message
+      successful.value = true
+    },
+    (error) => {
+      message.value = error.data.message
+      successful.value = false
     })
 }
 
@@ -201,7 +208,11 @@ retrieveCategories()
         Добавить ещё одну категорию
       </button>
     </div>
-    <div v-if="message" class="alert alert-danger">
+    <div
+      v-if="message"
+      class="alert"
+      :class="successful ? 'alert-success' : 'alert-danger'"
+    >
       {{ message }}
     </div>
   </div>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as yup from 'yup'
+import type { Ref } from 'vue'
 import { useAuthStore } from '~/store/auth.module'
 import 'yup-phone'
 import { useFlagStore } from '~/store/flags.module'
@@ -11,7 +12,7 @@ const router = useRouter()
 
 const loading = ref(false)
 const successful = ref(false)
-const message = ref('')
+const message: Ref<string | undefined> = ref()
 
 const schema = yup.object().shape({
   phone: yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'),
@@ -97,16 +98,12 @@ function handleRegister(user: any) {
           </button>
         </div>
 
-        <div class="form-group">
-          <div v-if="message && !successful" class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div v-if="message && successful" class="alert alert-success" role="alert">
-            {{ message }}
-          </div>
+        <div
+          v-if="message"
+          class="alert"
+          :class="successful ? 'alert-success' : 'alert-danger'"
+        >
+          {{ message }}
         </div>
       </Form>
     </div>

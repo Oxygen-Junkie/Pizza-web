@@ -13,8 +13,8 @@ const currentUser = $ref(auth.getUser())
 const phone = ref('')
 const phones = ref([''])
 
+const successful = ref(false)
 const message: Ref<string | undefined> = ref()
-
 const admin = import.meta.env.VITE_administrator
 
 const showAdminBoard = () => {
@@ -43,9 +43,15 @@ const rolez: Ref<{
 
 function getPhones() {
   if (showAdminBoard()) {
-    AuthService.getPhones().then((response) => {
-      phones.value = response.data
-    })
+    AuthService.getPhones()
+      .then((response) => {
+        phones.value = response.data
+        successful.value = true
+      },
+      (error) => {
+        successful.value = false
+        message.value = error.data.message
+      })
   }
 
   else {
@@ -61,19 +67,23 @@ function setRole() {
   AuthService.setRoles(phone.value, rolez.value.id)
     .then(() => {
       message.value = 'Роль добавлена'
-    })
-    .catch((e) => {
-      message.value = e.data.message
+      successful.value = true
+    },
+    (error) => {
+      successful.value = false
+      message.value = error.data.message
     })
 }
 
 function ban() {
   AuthService.ban(phone.value).then(() => {
     message.value = 'Пользователь заблокирован'
+    successful.value = true
+  },
+  (error) => {
+    successful.value = false
+    message.value = error.data.message
   })
-    .catch((e) => {
-      message.value = e.data.message
-    })
 }
 
 getPhones()
@@ -110,9 +120,12 @@ getPhones()
       Запретить совершить покупки
     </button>
   </div>
-  <div v-if="message" class="alert alert-success">
+  <div
+    v-if="message"
+    class="alert"
+    :class="successful ? 'alert-success' : 'alert-danger'"
+  >
     {{ message }}
-    <div />
   </div>
 </template>
 

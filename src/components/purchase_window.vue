@@ -16,29 +16,32 @@ const price: Ref<number> = ref(temp.price * temp.amount)
 const text = ref('')
 const phone = ref('')
 let point: MapPoints | undefined
+const successful = ref(false)
 const message: Ref<string | undefined> = ref()
 
 const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
 
 function confirm() {
   if (point) {
-    text.value = text.value === '' ? 'не указано' : text.value 
+    text.value = text.value === '' ? 'не указано' : text.value
     if (phone.value) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
         .then(() => {
           flags.closePopUps()
-        })
-        .catch((e) => {
-          message.value = e.data.message
+        },
+        (error) => {
+          message.value = error.data.message
+          successful.value = false
         })
     }
     else if (currentUser.isLoggedIn()) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${currentUser.getUser().phone}, в помещении ${text.value}`, currentUser.getUser().phone))
         .then(() => {
           flags.closePopUps()
-        })
-        .catch((e) => {
-          message.value = e.data.message
+        },
+        (error) => {
+          message.value = error.data.message
+          successful.value = false
         })
     }
     else { message.value = 'Телефон не известен' }
@@ -96,7 +99,11 @@ function getPoint(coordinate: MapPoints) {
         <p i-carbon-delivery />
         <div>&nbsp; Доставить</div>
       </button>
-      <div v-if="message" class="alert alert-danger" role="alert">
+      <div
+        v-if="message"
+        class="alert"
+        :class="successful ? 'alert-success' : 'alert-danger'"
+      >
         {{ message }}
       </div>
     </div>
