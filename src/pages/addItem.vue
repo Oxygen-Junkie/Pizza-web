@@ -55,12 +55,6 @@ function saveItem() {
       if (!priceCheck(item.value.price))
         return
 
-      if (!item.value.categoryId) {
-        successful.value = false
-        message.value = 'Не указана категория'
-        return
-      }
-
       const formData = new FormData()
       formData.append('file', image.value.files[0])
       Object.entries(item.value).forEach(([key, value]) => {
