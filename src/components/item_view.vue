@@ -8,6 +8,7 @@ const flags = useFlagStore()
 
 const currentItem: Ref<Item> = ref(props.item)
 const imageURL = ref('')
+const message = ref('')
 
 const amount = ref(1)
 
@@ -16,7 +17,20 @@ function retrieveItem() {
 }
 
 function buy() {
-  flags.changePopUpPurchase(amount.value)
+  if (amountCheck(amount.value))
+    flags.changePopUpPurchase(amount.value)
+}
+
+function amountCheck(amount: number) {
+  if (amount > 10) {
+    message.value = 'Слишком много одинаковых пицц одним заказом'
+    return false
+  }
+  if (amount < 0) {
+    message.value = 'Слишком маленький заказ'
+    return false
+  }
+  return true
 }
 
 retrieveItem()
@@ -62,6 +76,12 @@ retrieveItem()
           <p i-carbon-shopping-bag />&nbsp;
           Купить
         </button>
+      </div>
+      <div
+        v-if="message"
+        class="alert alert-danger"
+      >
+        {{ message }}
       </div>
     </div>
   </div>

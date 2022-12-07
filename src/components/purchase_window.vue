@@ -20,11 +20,12 @@ const successful = ref(false)
 const message: Ref<string | undefined> = ref()
 
 const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
+const phoneARules = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
 
 function confirm() {
   if (point) {
     text.value = text.value === '' ? 'не указано' : text.value
-    if (phone.value) {
+    if (phone.value && phoneARules.exec(phone.value)) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
         .then(() => {
           flags.closePopUps()
@@ -44,7 +45,7 @@ function confirm() {
           successful.value = false
         })
     }
-    else { message.value = 'Телефон не известен' }
+    else { message.value = 'Телефон не известен или не правилен' }
   }
   else {
     message.value = 'Укажите место доставки'

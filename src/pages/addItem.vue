@@ -40,34 +40,49 @@ function retrieveCategories() {
 function saveItem() {
   try {
     if (showManagerBoard()) {
-      if (item.value.categoryId) {
-        const formData = new FormData()
-        formData.append('file', image.value.files[0])
-        Object.entries(item.value).forEach(([key, value]) => {
-          if (value !== undefined || (key.match('fileName') || key.match('id'))) {
-            formData.append(key, value)
-          }
-          else {
-            successful.value = false
-            message.value = `Поле для ${key} не заполнено`
-            throw message.value
-          }
-        })
-        ItemDataService.create(formData)
-          .then((response) => {
-            item.value.id = response.data.id
-            submitted.value = true
-            successful.value = true
-          },
-          (error) => {
-            successful.value = false
-            message.value = error.data.message
-          })
-      }
-      else {
+      if (!item.value.categoryId) {
         successful.value = false
         message.value = 'Не указана категория'
+        return
       }
+
+      if (!item.value.price) {
+        successful.value = false
+        message.value = 'Не указана цена'
+        return
+      }
+
+      if (!priceCheck(item.value.price))
+        return
+
+      if (!item.value.categoryId) {
+        successful.value = false
+        message.value = 'Не указана категория'
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('file', image.value.files[0])
+      Object.entries(item.value).forEach(([key, value]) => {
+        if (value !== undefined || (key.match('fileName') || key.match('id'))) {
+          formData.append(key, value)
+        }
+        else {
+          successful.value = false
+          message.value = `Поле для ${key} не заполнено`
+          throw message.value
+        }
+      })
+      ItemDataService.create(formData)
+        .then((response) => {
+          item.value.id = response.data.id
+          submitted.value = true
+          successful.value = true
+        },
+        (error) => {
+          successful.value = false
+          message.value = error.data.message
+        })
     }
     else {
       alert('5 баллов, умник')
@@ -103,6 +118,20 @@ function saveCategory() {
 function newCategory() {
   submittedCat.value = false
   category.value = new Category()
+}
+
+function priceCheck(price: number) {
+  if (price > 5000) {
+    successful.value = false
+    message.value = 'Слишком большая цена'
+    return false
+  }
+  if (price < 200) {
+    successful.value = false
+    message.value = 'Слишком маленькая'
+    return false
+  }
+  return true
 }
 
 retrieveCategories()
