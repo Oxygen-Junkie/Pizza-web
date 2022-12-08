@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as yup from 'yup'
 import AuthService from '~/services/authService'
+import { checkPhone , getDigits } from '~/middleware/utilities'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -76,7 +77,8 @@ function setRole() {
 }
 
 function ban() {
-  AuthService.ban(phone.value).then(() => {
+ if (checkPhone(phone.value)) {
+AuthService.ban(getDigits(phone.value)).then(() => {
     message.value = 'Пользователь заблокирован'
     successful.value = true
   },
@@ -84,6 +86,10 @@ function ban() {
     successful.value = false
     message.value = error.data.message
   })
+} else {
+successful.value = false
+    message.value = 'Телефон не может быть указан'
+}
 }
 
 getPhones()
