@@ -117,11 +117,13 @@ function newCategory() {
 function priceCheck(price: number) {
   if (price > 5000) {
     successful.value = false
+    item.value.price = undefined
     message.value = 'Слишком большая цена'
     return false
   }
   if (price < 200) {
     successful.value = false
+    item.value.price = undefined
     message.value = 'Слишком маленькая'
     return false
   }

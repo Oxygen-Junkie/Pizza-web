@@ -24,10 +24,12 @@ function buy() {
 function amountCheck(amount: number) {
   if (amount > 10) {
     message.value = 'Слишком много одинаковых пицц одним заказом'
+    amount.value = 1
     return false
   }
   if (amount < 0) {
     message.value = 'Слишком маленький заказ'
+    amount.value = 1
     return false
   }
   return true
