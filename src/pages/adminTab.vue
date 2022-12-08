@@ -97,7 +97,7 @@ getPhones()
 
 <template>
   <Form>
-    <label for="phone">Введите телефон</label>
+    <label for="phone">Введите телефон</label> <p />
     <Field
       v-model.trim="phone"
       name="phone"
