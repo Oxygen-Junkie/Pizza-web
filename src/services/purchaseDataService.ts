@@ -1,12 +1,12 @@
-import authHeader from './auth-header'
 import http from './http-common'
 import type ItemOrder from '~/types/ItemOrder'
-import axios from "redaxios";
+import { getDigits } from '~/middleware/utilities'
 
 const BUY_API_URL = import.meta.env.VITE_url_buy
 
 class PurchaseDataService {
   buy(orders: ItemOrder) {
+    orders.phone = getDigits(orders.phone)
     return http.post(`${BUY_API_URL}?token=0`, orders)
   }
 

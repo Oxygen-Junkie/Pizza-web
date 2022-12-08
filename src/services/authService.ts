@@ -1,4 +1,5 @@
 import http from './http-common'
+import { getDigits } from '~/middleware/utilities'
 
 const LOG_URL = import.meta.env.VITE_url_signin
 const REG_URL = import.meta.env.VITE_url_signup
@@ -8,6 +9,7 @@ const Bans_URL = import.meta.env.VITE_url_ban
 
 class AuthService {
   login(phone: string, password: string) {
+    phone = getDigits(phone)
     return http
       .post(`${LOG_URL}`, {
         phone,
@@ -26,6 +28,7 @@ class AuthService {
   }
 
   register(phone: string, password: string) {
+    phone = getDigits(phone)
     return http.post(`${REG_URL}`, {
       location,
       phone,
@@ -43,6 +46,7 @@ class AuthService {
   }
 
   setRoles(phone: string, role: number) {
+    phone = getDigits(phone)
     return http.post(`${Roles_URL}`, {
       phone,
       role,
@@ -50,6 +54,7 @@ class AuthService {
   }
 
   ban(phone: string) {
+    phone = getDigits(phone)
     return http.post(`${Bans_URL}`, {
       phone,
     })

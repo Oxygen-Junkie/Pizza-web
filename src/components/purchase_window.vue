@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import type MapPoints from '~/types/MapPoints'
 import purchaseDataService from '~/services/purchaseDataService'
 import ItemOrder from '~/types/ItemOrder'
+import { checkPhone } from '~/middleware/utilities'
 
 const flags = useFlagStore()
 const currentUser = useAuthStore()
@@ -20,12 +21,11 @@ const successful = ref(false)
 const message: Ref<string | undefined> = ref()
 
 const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
-const phoneARules = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
 
 function confirm() {
   if (point) {
     text.value = text.value === '' ? 'не указано' : text.value
-    if (phone.value && phoneARules.exec(phone.value)) {
+    if (phone.value && checkPhone(phone.value)) {
       purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
         .then(() => {
           flags.closePopUps()
