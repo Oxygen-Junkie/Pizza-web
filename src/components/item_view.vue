@@ -21,13 +21,13 @@ function buy() {
     flags.changePopUpPurchase(amount.value)
 }
 
-function amountCheck(amount: number) {
-  if (amount > 10) {
+function amountCheck(amountz: number) {
+  if (amountz > 10) {
     message.value = 'Слишком много одинаковых пицц одним заказом'
     amount.value = 1
     return false
   }
-  if (amount < 0) {
+  if (amountz < 0) {
     message.value = 'Слишком маленький заказ'
     amount.value = 1
     return false

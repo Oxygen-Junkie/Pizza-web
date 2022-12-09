@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import ItemDataService from '~/services/itemDataService'
 import PurchaseDataService from '~/services/purchaseDataService'
 import type Item from '~/types/Item'
-import type ItemOrder from '~/types/ItemOrder'
+import ItemOrder from '~/types/ItemOrder'
 import MapPoints from '~/types/MapPoints'
 
 const auth = useAuthStore()
@@ -13,7 +13,7 @@ const manager = import.meta.env.VITE_manager
 const currentUser = $ref(auth.getUser())
 const mode: Ref<number> = ref(4)
 
-const orders: Ref<[{ order: ItemOrder; color: string } | undefined]> = ref([])
+const orders: Ref<{ order: ItemOrder; color: string }[]> = ref([{ order: new ItemOrder(1, 1, [1, 1], '', ''), color: '' }])
 const items: Ref<Item[]> = ref([])
 const points: Ref<MapPoints[]> = ref([])
 

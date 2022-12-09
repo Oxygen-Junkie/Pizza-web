@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as yup from 'yup'
 import AuthService from '~/services/authService'
-import { checkPhone , getDigits } from '~/middleware/utilities'
+import { checkPhone, getDigits } from '~/middleware/utilities'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -65,31 +65,38 @@ function getPhones() {
 }
 
 function setRole() {
-  AuthService.setRoles(phone.value, rolez.value.id)
-    .then(() => {
-      message.value = 'Роль добавлена'
+  if (phones.value.includes(phone.value)) {
+    AuthService.setRoles(phone.value, rolez.value.id)
+      .then(() => {
+        message.value = 'Роль добавлена'
+        successful.value = true
+      },
+      (error) => {
+        successful.value = false
+        message.value = error.data.message
+      })
+  }
+  else {
+    successful.value = false
+    message.value = 'Телефон не зарегистрирован в системе'
+  }
+}
+
+function ban() {
+  if (checkPhone(phone.value)) {
+    AuthService.ban(getDigits(phone.value)).then(() => {
+      message.value = 'Пользователь заблокирован'
       successful.value = true
     },
     (error) => {
       successful.value = false
       message.value = error.data.message
     })
-}
-
-function ban() {
- if (checkPhone(phone.value)) {
-AuthService.ban(getDigits(phone.value)).then(() => {
-    message.value = 'Пользователь заблокирован'
-    successful.value = true
-  },
-  (error) => {
+  }
+  else {
     successful.value = false
-    message.value = error.data.message
-  })
-} else {
-successful.value = false
     message.value = 'Телефон не может быть указан'
-}
+  }
 }
 
 getPhones()
