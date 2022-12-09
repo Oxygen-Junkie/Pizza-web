@@ -72,6 +72,7 @@ function saveItem() {
           item.value.id = response.data.id
           submitted.value = true
           successful.value = true
+          message.value = ''
         },
         (error) => {
           successful.value = false
@@ -97,11 +98,19 @@ function newItem() {
 }
 
 function saveCategory() {
+  if (!category.value.name || category.value.name === '') {
+    successful.value = false
+    message.value = 'Название категории не задано!'
+    return
+  }
+
   ItemDataService.createCategory(category.value)
     .then((response) => {
       category.value.id = response.data.id
       submittedCat.value = true
       successful.value = true
+      retrieveCategories()
+      message.value = ''
     },
     (error) => {
       message.value = error.data.message
@@ -124,7 +133,7 @@ function priceCheck(price: number) {
   if (price < 200) {
     successful.value = false
     item.value.price = undefined
-    message.value = 'Слишком маленькая'
+    message.value = 'Слишком маленькая цена'
     return false
   }
   return true

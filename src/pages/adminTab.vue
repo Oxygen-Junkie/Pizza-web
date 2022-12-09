@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ErrorMessage, Field, Form } from 'vee-validate'
-import * as yup from 'yup'
+import { ErrorMessage, Form } from 'vee-validate'
+//import * as yup from 'yup'
 import AuthService from '~/services/authService'
 import { checkPhone, getDigits } from '~/middleware/utilities'
 
 const auth = useAuthStore()
 const router = useRouter()
-const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
+//const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
 
 const currentUser = $ref(auth.getUser())
 
@@ -104,16 +104,9 @@ getPhones()
 
 <template>
   <Form>
-    <label for="phone">Введите телефон</label> <p />
-    <Field
-      v-model.trim="phone"
-      name="phone"
-      type="tel"
-      pattern=""
-      placeholder="+79....."
-      :rules="phoneRules"
-      style="width: 500px"
-    />
+    <label>Введите телефон</label>
+  <v-select v-model="phone" class="form-select form-select-sm" style="width: 500px" :options="phones" /><p />
+    <p />
     <ErrorMessage name="phone" class="text-red error-feedback" />
   </Form>
   <label>Укажите роль</label>

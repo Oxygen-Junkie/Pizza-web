@@ -59,7 +59,7 @@ onUnmounted(() => {
     <div class="navbar-nav mr-auto">
       <li class="nav-item">
         <router-link v-if="showManagerBoard()" v-show="!flags.shade" to="/addItem" class="nav-link">
-          <p i-carbon-wheat /> Добавить предмет
+          <p i-carbon-wheat /> Добавить товар
         </router-link>
       </li>
       <li class="nav-item">

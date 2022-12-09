@@ -13,6 +13,8 @@ const rotation = ref(0)
 const radius = ref(2)
 const strokeWidth = ref(10)
 const fillColor = ref('red')
+
+// alert('Координаты получены! ' + props.coordinates[0].coordinates[0])
 </script>
 
 <template>

@@ -12,6 +12,7 @@ const manager = import.meta.env.VITE_manager
 
 const currentUser = $ref(auth.getUser())
 const mode: Ref<number> = ref(4)
+const rerender = ref(true)
 
 const orders: Ref<{ order: ItemOrder; color: string }[]> = ref([{ order: new ItemOrder(1, 1, [1, 1], '', ''), color: '' }])
 const items: Ref<Item[]> = ref([])
@@ -30,12 +31,14 @@ function initiate() {
       .then((response) => {
         const temp: ItemOrder[] = response.data
         temp.forEach((value, index) => {
-          const color = `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
+          if (value.inbound) {
+            const color = `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
           orders.value?.push({ order: value, color })
           const temb = new MapPoints(value.location)
           temb.text = value.text
           temb.color = color
           points.value?.push(temb)
+        }
         })
       })
 
@@ -55,13 +58,18 @@ function initiate() {
 
 function stopTracking(order: ItemOrder) {
   order.inbound = false
-  PurchaseDataService.updateOrder(order.id, order)
+  
+  PurchaseDataService.updateOrder(order.itemId, order)
+  points.value = []
+  initiate()
+  rerender.value = false
+  rerender.value = true
 }
 
 function findItem(value: ItemOrder) {
-  const q = items.value.find(item => item.id === value.itemId)
+  const q = items.value.find(item => item.id === value.fk_product)
   if (q) {
-    const q: any = items.value.find(item => item.id === value.itemId)
+    const q: any = items.value.find(item => item.id === value.fk_product)
     q.amount = value.amount
     return q
   }
@@ -74,12 +82,12 @@ initiate()
 </script>
 
 <template>
-  <MapContainer v-if="points" :coordinates="points" />
+  <MapContainer v-if="(points[0] || rerender)" :coordinates="points" />
   <div v-if="orders">
     <div v-for="order in orders" :key="order?.order.id" :style="{ backgroundColor: order?.color }">
       <div v-if="order && order.order.inbound">
         <item_palette
-          v-if="order.order.inbound"
+        v-if="order.order.inbound"
           :item="findItem(order.order)"
           :mode="mode"
           class="plate"

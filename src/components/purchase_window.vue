@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import type MapPoints from '~/types/MapPoints'
 import purchaseDataService from '~/services/purchaseDataService'
 import ItemOrder from '~/types/ItemOrder'
-import { checkPhone } from '~/middleware/utilities'
+import { checkPhone, getDigits } from '~/middleware/utilities'
 
 const flags = useFlagStore()
 const currentUser = useAuthStore()
@@ -25,8 +25,12 @@ const phoneRules = ref(yup.string().required('Требуется номер те
 function confirm() {
   if (point) {
     text.value = text.value === '' ? 'не указано' : text.value
-    if (phone.value && checkPhone(phone.value)) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${phone.value}, в помещении ${text.value}`, phone.value))
+    if (phone.value) {
+      if (!checkPhone(phone.value)) {
+        message.value = 'Телефон не правилен'
+        return
+      }
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${getDigits(phone.value)}, в помещении ${text.value}`, phone.value))
         .then(() => {
           flags.closePopUps()
         },
@@ -36,7 +40,7 @@ function confirm() {
         })
     }
     else if (currentUser.isLoggedIn()) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${currentUser.getUser().phone}, в помещении ${text.value}`, currentUser.getUser().phone))
+      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${getDigits(currentUser.getUser().phone)}, в помещении ${text.value}`, currentUser.getUser().phone))
         .then(() => {
           flags.closePopUps()
         },
@@ -45,7 +49,7 @@ function confirm() {
           successful.value = false
         })
     }
-    else { message.value = 'Телефон не известен или не правилен' }
+    else { message.value = 'Телефон не известен' }
   }
   else {
     message.value = 'Укажите место доставки'
