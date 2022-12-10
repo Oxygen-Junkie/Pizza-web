@@ -96,7 +96,7 @@ function getPoint(coordinate: MapPoints) {
         name="office"
         type="text"
         placeholder="Введите квартиру/офис/помещение"
-        maxlength="4"
+        maxlength="20"
         style="width: 300px;
 "
       >
