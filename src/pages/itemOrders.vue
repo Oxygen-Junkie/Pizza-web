@@ -5,6 +5,7 @@ import PurchaseDataService from '~/services/purchaseDataService'
 import type Item from '~/types/Item'
 import ItemOrder from '~/types/ItemOrder'
 import MapPoints from '~/types/MapPoints'
+import { prettifyNumber } from '~/middleware/utilities'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -33,12 +34,12 @@ function initiate() {
         temp.forEach((value, index) => {
           if (value.inbound) {
             const color = `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
-          orders.value?.push({ order: value, color })
-          const temb = new MapPoints(value.location)
-          temb.text = value.text
-          temb.color = color
-          points.value?.push(temb)
-        }
+            orders.value?.push({ order: value, color })
+            const temb = new MapPoints(value.location)
+            temb.text = value.text
+            temb.color = color
+            points.value?.push(temb)
+          }
         })
       })
 
@@ -58,7 +59,7 @@ function initiate() {
 
 function stopTracking(order: ItemOrder) {
   order.inbound = false
-  
+
   PurchaseDataService.updateOrder(order.itemId, order)
   points.value = []
   initiate()
@@ -87,7 +88,7 @@ initiate()
     <div v-for="order in orders" :key="order?.order.id" :style="{ backgroundColor: order?.color }">
       <div v-if="order && order.order.inbound">
         <item_palette
-        v-if="order.order.inbound"
+          v-if="order.order.inbound"
           :item="findItem(order.order)"
           :mode="mode"
           class="plate"
@@ -96,7 +97,7 @@ initiate()
           Предмет был удален
         </div>
         <span class="bg-white">{{ ` Стоимостью: ${order.order.amount * findItem(order.order).price} ` }}</span><p />
-        <span class="bg-white">{{ ` Номер телефона заказчика: ${order.order.phone} ` }}</span><p />
+        <span class="bg-white">{{ ` Номер телефона заказчика: ${prettifyNumber(order.order.phone)} ` }}</span><p />
         <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
           Считать этот товар доставленным
         </button>
