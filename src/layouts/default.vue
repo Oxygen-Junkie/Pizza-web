@@ -8,6 +8,7 @@ const flags = useFlagStore()
   <main>
     <item_view v-if="flags.popUpItem" :item="flags.getItem()" />
     <purchase_window v-if="flags.popUpPurchase" />
+    <SuccessfulOrder v-if="flags.popUpSuccess" />
     <signin v-if="flags.popUpSignIn" />
     <signup v-if="flags.popUpSignUp" />
     <div :class="{ 'b blur': flags.shade }">

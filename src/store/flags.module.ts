@@ -6,6 +6,8 @@ export const useFlagStore = defineStore('flag', () => {
   const popUpPurchase = ref(false)
   const popUpSignIn = ref(false)
   const popUpSignUp = ref(false)
+  const popUpSuccess = ref(false)
+  const number = ref('')
   const shade = ref(false)
   const location = ref('')
   const render = ref(-1)
@@ -17,6 +19,7 @@ export const useFlagStore = defineStore('flag', () => {
     popUpSignIn.value = false
     popUpSignUp.value = false
     popUpPurchase.value = false
+    popUpSuccess.value = false
     shade.value = false
   }
 
@@ -43,6 +46,13 @@ export const useFlagStore = defineStore('flag', () => {
     shade.value = true
   }
 
+  function changePopUpSuccess(numberz: string) {
+    number.value = numberz
+    popUpSuccess.value = true
+    popUpPurchase.value = false
+    shade.value = true
+  }
+
   function setLocation(loc: string) {
     location.value = loc
   }
@@ -60,6 +70,7 @@ export const useFlagStore = defineStore('flag', () => {
     changePopUpItem,
     changePopUpSignIn,
     changePopUpSignUp,
+    changePopUpSuccess,
     rerender,
     setLocation,
     popUpPurchase,
@@ -69,8 +80,10 @@ export const useFlagStore = defineStore('flag', () => {
     popUpItem,
     popUpSignIn,
     popUpSignUp,
+    popUpSuccess,
     location,
     amount,
+    number,
     getItem,
   }
 })

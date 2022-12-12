@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import { ErrorMessage, Form } from 'vee-validate'
-//import * as yup from 'yup'
+import * as yup from 'yup'
 import AuthService from '~/services/authService'
 import { checkPhone, getDigits } from '~/middleware/utilities'
 
 const auth = useAuthStore()
 const router = useRouter()
-//const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
+const phoneRules = ref(yup.string().required('Требуется номер телефона!').phone('RU', true, 'Номер телефона указан неверно'))
 
 const currentUser = $ref(auth.getUser())
 
@@ -17,6 +17,8 @@ const phones = ref([''])
 const successful = ref(false)
 const message: Ref<string | undefined> = ref()
 const admin = import.meta.env.VITE_administrator
+
+const input_mode = ref(true)
 
 const showAdminBoard = () => {
   if (currentUser && currentUser.roles)
@@ -105,8 +107,20 @@ getPhones()
 <template>
   <Form>
     <label>Введите телефон</label>
-  <v-select v-model="phone" class="form-select form-select-sm" style="width: 500px" :options="phones" /><p />
-    <p />
+    <v-select v-if="input_mode" v-model="phone" class="form-select form-select-sm" style="width: 500px" :options="phones" />
+    <Field
+      v-if="!input_mode"
+      v-model.trim="phone"
+      name="phone"
+      type="tel"
+      pattern=""
+      placeholder="+79....."
+      :rules="phoneRules"
+      style="width: 500px"
+    />
+    <button class="btn bg-yellow" @click.prevent="input_mode = !input_mode">
+      {{ input_mode ? 'Ввести не зарегистрированный телефон' : 'Указать телефон из зарегистрированного перечня' }}
+    </button><p />
     <ErrorMessage name="phone" class="text-red error-feedback" />
   </Form>
   <label>Укажите роль</label>

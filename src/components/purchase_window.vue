@@ -30,9 +30,16 @@ function confirm() {
         message.value = 'Телефон не правилен'
         return
       }
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${getDigits(phone.value)}, в помещении ${text.value}`, phone.value))
+      const yt = new ItemOrder(
+        item.value.amount,
+        item.value.id,
+        point.coordinates,
+        `${getDigits(phone.value)} ${text.value || !text.value.match('') ? `, в помещении ${text.value}` : ''}`,
+        getDigits(phone.value),
+      )
+      purchaseDataService.buy(yt)
         .then(() => {
-          flags.closePopUps()
+          flags.changePopUpSuccess(getDigits(phone.value))
         },
         (error) => {
           message.value = error.data.message
@@ -40,9 +47,16 @@ function confirm() {
         })
     }
     else if (currentUser.isLoggedIn()) {
-      purchaseDataService.buy(new ItemOrder(item.value.amount, item.value.id, point.coordinates, `${getDigits(currentUser.getUser().phone)}, в помещении ${text.value}`, currentUser.getUser().phone))
+      const yt = new ItemOrder(
+        item.value.amount,
+        item.value.id,
+        point.coordinates,
+        `${getDigits(currentUser.getUser().phone)} ${text.value || !text.value.match('') ? `, в помещении ${text.value}` : ''}`,
+        getDigits(currentUser.getUser().phone),
+      )
+      purchaseDataService.buy(yt)
         .then(() => {
-          flags.closePopUps()
+          flags.changePopUpSuccess(getDigits(currentUser.getUser().phone))
         },
         (error) => {
           message.value = error.data.message
@@ -97,8 +111,7 @@ function getPoint(coordinate: MapPoints) {
         type="text"
         placeholder="Введите квартиру/офис/помещение"
         maxlength="20"
-        style="width: 300px;
-"
+        style="width: 300px;"
       >
       <button class="badge bg-yellow d-inline-flex" @click="confirm">
         <p i-carbon-delivery />
