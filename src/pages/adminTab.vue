@@ -115,6 +115,7 @@ getPhones()
       type="tel"
       pattern=""
       placeholder="+79....."
+      class="form-control"
       :rules="phoneRules"
       style="width: 500px"
     />
