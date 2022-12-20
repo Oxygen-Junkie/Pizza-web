@@ -111,7 +111,7 @@ initiate()
         <div v-if="order.order.called">
           <strong>Подтверждено звонком!</strong>
         </div>
-        <div>
+        <div v-else>
           <button class="badge bg-red d-inline-flex" @click="called(order.order)">
             <p i-carbon-phone />
             <div>&nbsp; Подтвердить звонок</div>
