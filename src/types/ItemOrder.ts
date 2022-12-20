@@ -1,9 +1,10 @@
 export default class ItemOrder {
   id!: number
   amount: number
-  fk_product?:number 
+  fk_product?: number
   itemId: number
   inbound: boolean
+  called?: boolean
   location!: [number, number]
   phone: string
   text!: string

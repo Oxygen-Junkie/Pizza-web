@@ -13,7 +13,7 @@ const flags = useFlagStore()
         </div>
       </div>
       <div class="card-container text-center">
-        <strong class="text-yellow">{{ `Заказ отправлен, ожидайте звонка на номер ${prettifyNumber(flags.number)}` }}</strong>
+        <strong class="text-yellow">{{ `Заказ отправлен, ожидайте звонка на номер ${prettifyNumber(flags.number)} в течении получаса` }}</strong>
       </div>
 
       <br>

@@ -67,6 +67,16 @@ function stopTracking(order: ItemOrder) {
   rerender.value = true
 }
 
+function called(order: ItemOrder) {
+  order.called = true
+
+  PurchaseDataService.updateOrder(order.itemId, order)
+  points.value = []
+  initiate()
+  rerender.value = false
+  rerender.value = true
+}
+
 function findItem(value: ItemOrder) {
   const q = items.value.find(item => item.id === value.fk_product)
   if (q) {
@@ -98,6 +108,15 @@ initiate()
         </div>
         <span class="bg-white">{{ ` Стоимостью: ${order.order.amount * findItem(order.order).price} ` }}</span><p />
         <span class="bg-white">{{ ` Номер телефона заказчика: ${prettifyNumber(order.order.phone)} ` }}</span><p />
+        <div v-if="order.order.called">
+          <strong>Подтверждено звонком!</strong>
+        </div>
+        <div>
+          <button class="badge bg-red d-inline-flex" @click="called(order.order)">
+            <p i-carbon-phone />
+            <div>&nbsp; Подтвердить звонок</div>
+          </button>
+        </div>
         <button class="btn btn-primary btn-block bg-blue" @click="stopTracking(order.order)">
           Считать этот товар доставленным
         </button>
