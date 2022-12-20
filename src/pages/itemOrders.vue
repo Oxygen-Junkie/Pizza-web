@@ -62,8 +62,8 @@ function stopTracking(order: ItemOrder) {
 
   PurchaseDataService.updateOrder(order.itemId, order)
   points.value = []
-  initiate()
   rerender.value = false
+  initiate()
   rerender.value = true
 }
 
@@ -72,8 +72,8 @@ function called(order: ItemOrder) {
 
   PurchaseDataService.updateOrder(order.itemId, order)
   points.value = []
-  initiate()
   rerender.value = false
+  initiate()
   rerender.value = true
 }
 
