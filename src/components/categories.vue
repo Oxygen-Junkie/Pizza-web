@@ -21,7 +21,7 @@ function retrieveCategories() {
     })
 }
 
-function setActiveCategory(category: Category, index: number) {
+function setActiveCategory(index: number) {
   currentIndex.value = index
   emit('found', currentIndex.value)
 }
@@ -38,9 +38,9 @@ retrieveCategories()
           v-for="(category, index) in categories"
           :key="index"
           class="list-group-item bg-lavender"
-          :class="{ active: index === currentIndex }"
+          :class="{ active: category.id === currentIndex }"
           :disabled="flags.shade"
-          @click="setActiveCategory(category, index)"
+          @click="setActiveCategory(category.id)"
         >
           {{ category.name }}
         </li>

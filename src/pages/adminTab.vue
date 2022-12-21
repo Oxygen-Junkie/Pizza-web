@@ -4,6 +4,7 @@ import { ErrorMessage, Form } from 'vee-validate'
 import * as yup from 'yup'
 import AuthService from '~/services/authService'
 import { checkPhone, getDigits } from '~/middleware/utilities'
+import { Field } from 'vee-validate';
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -119,6 +120,8 @@ getPhones()
       :rules="phoneRules"
       style="width: 500px"
     />
+    <template>
+</template>
     <button class="btn bg-yellow" @click.prevent="input_mode = !input_mode">
       {{ input_mode ? 'Ввести не зарегистрированный телефон' : 'Указать телефон из зарегистрированного перечня' }}
     </button><p />

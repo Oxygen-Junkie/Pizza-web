@@ -16,6 +16,7 @@ const mode: Ref<number> = ref(4)
 const rerender = ref(true)
 
 const orders = ref()
+orders.value=[]
 const items: Ref<Item[]> = ref([])
 const points: Ref<MapPoints[]> = ref([])
 
@@ -27,6 +28,7 @@ const showManagerBoard = () => {
 }
 
 function initiate() {
+  orders.value=[]
   if (showManagerBoard()) {
     PurchaseDataService.displayOrders()
       .then((response) => {
@@ -60,21 +62,23 @@ function initiate() {
 function stopTracking(order: ItemOrder) {
   order.inbound = false
 
-  PurchaseDataService.updateOrder(order.itemId, order)
-  points.value = []
+  PurchaseDataService.updateOrder(order.itemId, order).then(()=>{
+    points.value = []
   rerender.value = false
   initiate()
   rerender.value = true
+  })
 }
 
 function called(order: ItemOrder) {
   order.called = true
 
-  PurchaseDataService.updateOrder(order.itemId, order)
-  points.value = []
+  PurchaseDataService.updateOrder(order.itemId, order).then(()=>{
+    points.value = []
   rerender.value = false
   initiate()
   rerender.value = true
+  })
 }
 
 function findItem(value: ItemOrder) {
@@ -96,16 +100,16 @@ initiate()
     <div v-for="order in orders" :key="order?.order.id" :style="{ backgroundColor: order?.color }">
       <div v-if="order && order.order.inbound">
         <item_palette
-          v-if="order.order.inbound"
+          v-if="order.inbound"
           :item="findItem(order.order)"
           :mode="mode"
           class="plate"
         />
         <div v-else style="backgroundColor: white">
-          Предмет был удален
         </div>
-        <span class="bg-white">{{ ` Стоимостью: ${order.order.amount * findItem(order.order)!.price!} ` }}</span><p />
-        <span class="bg-white">{{ ` Номер телефона заказчика: ${prettifyNumber(order.order.phone)} ` }}</span><p />
+        <span class="bg-white">{{`${findItem(order.order)?.title} ` }}</span><p />
+        <span class="bg-white">{{`Стоимостью: ${order.order.amount * findItem(order.order)?.price!} ` }}</span><p />
+        <span class="bg-white">{{ ` Номер телефона заказчика: ${prettifyNumber(order.order.phone).value } ` }}</span><p />
         <div v-if="order.order.called">
           <strong>Подтверждено звонком!</strong>
         </div>
