@@ -4,7 +4,7 @@ import type MapPoints from '~/types/MapPoints'
 
 const props = defineProps<{ coordinates: MapPoints[] }>()
 
-const koordinates = ref(props.coordinates)
+const koordinates = ref()
 const center = ref([46.02085637636517, 51.53998063510776])
 const projection = ref('EPSG:4326')
 const zoom = ref(14.815764566923766)
@@ -15,6 +15,9 @@ const strokeWidth = ref(10)
 const fillColor = ref('red')
 
 // alert('Координаты получены! ' + props.coordinates[0].coordinates[0])
+watchEffect(() => {
+  koordinates.value = props.coordinates
+})
 </script>
 
 <template>

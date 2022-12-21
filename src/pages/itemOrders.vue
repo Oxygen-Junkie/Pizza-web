@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import ItemDataService from '~/services/itemDataService'
 import PurchaseDataService from '~/services/purchaseDataService'
 import type Item from '~/types/Item'
-import ItemOrder from '~/types/ItemOrder'
+import type ItemOrder from '~/types/ItemOrder'
 import MapPoints from '~/types/MapPoints'
 import { prettifyNumber } from '~/middleware/utilities'
 
@@ -15,7 +15,7 @@ const currentUser = $ref(auth.getUser())
 const mode: Ref<number> = ref(4)
 const rerender = ref(true)
 
-const orders: Ref<{ order: ItemOrder; color: string }[]> = ref([{ order: new ItemOrder(1, 1, [1, 1], '', ''), color: '' }])
+const orders = ref()
 const items: Ref<Item[]> = ref([])
 const points: Ref<MapPoints[]> = ref([])
 
@@ -82,11 +82,9 @@ function findItem(value: ItemOrder) {
   if (q) {
     const q: any = items.value.find(item => item.id === value.fk_product)
     q.amount = value.amount
-    return q
   }
-  else {
-    return q
-  }
+
+  return q
 }
 
 initiate()
@@ -106,7 +104,7 @@ initiate()
         <div v-else style="backgroundColor: white">
           Предмет был удален
         </div>
-        <span class="bg-white">{{ ` Стоимостью: ${order.order.amount * findItem(order.order).price} ` }}</span><p />
+        <span class="bg-white">{{ ` Стоимостью: ${order.order.amount * findItem(order.order)!.price!} ` }}</span><p />
         <span class="bg-white">{{ ` Номер телефона заказчика: ${prettifyNumber(order.order.phone)} ` }}</span><p />
         <div v-if="order.order.called">
           <strong>Подтверждено звонком!</strong>
