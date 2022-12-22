@@ -52,5 +52,6 @@ const flags = useFlagStore()
 .badge {
   font-size: medium;
   margin-top: 20px;
+  margin-left: 8rem;
 }
 </style>

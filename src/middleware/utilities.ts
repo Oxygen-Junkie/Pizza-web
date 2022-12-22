@@ -12,5 +12,5 @@ export const checkPhone = (number: string) => {
 }
 
 export const prettifyNumber = (number: string) => {
-  return ref(`+${number.charAt(0)}-(${number.substring(1, 4)})-${number.substring(4, 7)}-${number.substring(7, 9)}-${number.substring(9, 11)}`)
+  return ref(`+${number.charAt(0)}-(${number.substring(1, 5)})-${number.substring(5, 7)}-${number.substring(7, 9)}-${number.substring(9, 11)}`)
 }
