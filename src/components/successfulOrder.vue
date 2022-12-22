@@ -18,7 +18,7 @@ const flags = useFlagStore()
 
       <br>
       <div>
-        <button class="d-inline-flex justify-content-center badge bg-yellow" @click="flags.closePopUps">
+        <button class="badge bg-yellow d-inline-flex" @click="flags.closePopUps">
           <p i-carbon-checkmark />&nbsp;
           Принято
         </button>
@@ -47,5 +47,10 @@ const flags = useFlagStore()
   left: 50%;
   margin-left:-100px;
   margin-top:-280px;
+}
+
+.badge {
+  font-size: medium;
+  margin-top: 20px;
 }
 </style>
